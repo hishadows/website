@@ -46,7 +46,6 @@
     *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
     .hero-kanji, .hero-inner > div:first-child > *, .hero-sub p, .btn-row{opacity:1 !important; transform:none !important;}
     .dish-card, .gallery-grid > div{opacity:1 !important; transform:none !important;}
-    .hero-bg{animation:none !important;}
   }
 
   :focus-visible{outline:2px solid var(--gold); outline-offset:3px;}
@@ -189,18 +188,13 @@
     position:absolute; inset:0; overflow:hidden;
   }
   .hero-bg{
-    position:absolute; inset:-4%;
-    background-image:url('images/dish-uni.jpg');
-    background-size:cover;
-    background-position:center 42%;
-    opacity:0.5;
-    filter:saturate(0.95) contrast(1.08);
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    object-position:center 38%;
+    opacity:0.55;
+    filter:saturate(0.95) contrast(1.05);
     will-change:transform;
-    animation:kenburns 22s ease-in-out infinite alternate;
-  }
-  @keyframes kenburns{
-    0%{transform:scale(1.06) translate(0,0);}
-    100%{transform:scale(1.16) translate(-1.5%,-2%);}
   }
   .hero::after{
     content:'';
@@ -617,7 +611,116 @@
     .review-frames{grid-template-columns:1fr; max-width:460px; margin:0 auto;}
   }
 
-  /* ===== Location / Hours ===== */
+  /* ===== Guest Favorites ===== */
+  .favorites-strip{
+    background:var(--ivory-dim);
+    padding:2.6rem 0;
+    border-top:1px solid var(--line-dark);
+    border-bottom:1px solid var(--line-dark);
+  }
+  .fav-list{
+    display:flex; flex-wrap:wrap; gap:0.9rem;
+    justify-content:center;
+  }
+  .fav-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--ivory);
+    border:1px solid rgba(110,75,51,0.25);
+    color:var(--ink-soft);
+    font-size:0.86rem;
+    padding:9px 18px;
+    border-radius:999px;
+    font-weight:500;
+  }
+  .fav-pill::before{content:'✳'; color:var(--lacquer); font-size:0.7rem;}
+
+  /* ===== Full Menu ===== */
+  .menu-section{background:var(--ivory);}
+  .menu-tabs{
+    display:flex; gap:0.6rem; flex-wrap:wrap;
+    margin-bottom:3rem;
+    border-bottom:1px solid var(--line-dark);
+    padding-bottom:1.6rem;
+  }
+  .menu-photos{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1.4rem;
+    margin-bottom:3.4rem;
+  }
+  .menu-photo{
+    position:relative;
+    aspect-ratio:4/5;
+    overflow:hidden;
+    border-radius:4px;
+  }
+  .menu-photo img{
+    width:100%; height:100%; object-fit:cover;
+    transition:transform .8s var(--ease);
+  }
+  .menu-photo:hover img{transform:scale(1.06);}
+  .menu-photo-tag{
+    position:absolute; left:0; bottom:0; right:0;
+    padding:1.1rem 1.3rem;
+    background:linear-gradient(180deg, transparent, rgba(21,18,14,0.82) 75%);
+    color:var(--ivory);
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:1.02rem;
+  }
+  @media (max-width:780px){
+    .menu-photos{grid-template-columns:1fr; gap:1rem;}
+  }
+  .menu-tab{
+    font-size:0.76rem; letter-spacing:.08em; text-transform:uppercase; font-weight:600;
+    padding:10px 18px;
+    border-radius:999px;
+    border:1px solid rgba(110,75,51,0.3);
+    color:var(--umber);
+    background:transparent;
+    cursor:pointer;
+    transition:all .3s var(--ease);
+    font-family:var(--sans);
+  }
+  .menu-tab:hover{border-color:var(--lacquer); color:var(--lacquer);}
+  .menu-tab.active{background:var(--ink); border-color:var(--ink); color:var(--ivory);}
+  .menu-panel{display:none;}
+  .menu-panel.active{display:block; animation:panelIn .5s var(--ease);}
+  @keyframes panelIn{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+  .menu-panel-note{
+    font-size:0.86rem; font-style:italic; color:var(--umber); margin-bottom:1.6rem; font-family:var(--serif);
+  }
+  .menu-list{
+    columns:2;
+    column-gap:4rem;
+  }
+  .menu-item{
+    break-inside:avoid;
+    padding:1.1rem 0;
+    border-bottom:1px dashed rgba(110,75,51,0.25);
+  }
+  .menu-item-row{
+    display:flex; justify-content:space-between; align-items:baseline; gap:1rem;
+  }
+  .menu-item-name{
+    font-family:var(--serif); font-size:1.06rem; font-weight:500; color:var(--ink);
+  }
+  .menu-item-price{
+    font-size:0.92rem; font-weight:600; color:var(--lacquer); white-space:nowrap;
+  }
+  .menu-item-desc{
+    font-size:0.85rem; color:var(--ink-soft); font-weight:300; margin-top:.3rem; max-width:46ch;
+  }
+  .menu-subhead{
+    font-family:var(--serif); font-style:italic; font-size:1.15rem; color:var(--umber);
+    margin:1.6rem 0 .6rem; column-span:all;
+  }
+  .menu-subhead:first-child{margin-top:0;}
+  @media (max-width:780px){
+    .menu-list{columns:1;}
+    .menu-tabs{gap:0.5rem; padding-bottom:1.2rem; margin-bottom:2rem;}
+    .menu-tab{padding:8px 14px; font-size:0.7rem;}
+  }
   .location{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -724,7 +827,8 @@
   </button>
   <nav id="navMenu">
     <a href="#about">About</a>
-    <a href="#dishes">Menu</a>
+    <a href="#dishes">Highlights</a>
+    <a href="#fullmenu">Full Menu</a>
     <a href="#story">Story</a>
     <a href="#gallery">Gallery</a>
     <a href="#reviews">Reviews</a>
@@ -737,7 +841,11 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-bg-wrap" id="heroBgWrap"><div class="hero-bg" id="heroBg"></div></div>
+    <div class="hero-bg-wrap" id="heroBgWrap">
+      <video class="hero-bg" id="heroBg" autoplay muted loop playsinline poster="images/hero-poster.jpg">
+        <source src="video/hero-loop.mp4" type="video/mp4">
+      </video>
+    </div>
     <div class="hero-glow" id="heroGlow"></div>
     <div class="hero-kanji" aria-hidden="true">光</div>
     <div class="hero-inner">
@@ -844,6 +952,54 @@
           <p>Our rotating selection, built for two — the way most nights here begin.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- GUEST FAVORITES -->
+  <section class="favorites-strip">
+    <div class="wrap reveal">
+      <div class="eyebrow tag" style="justify-content:center; margin-bottom:1.6rem;">Guest Favorites</div>
+      <div class="fav-list">
+        <span class="fav-pill">Beef Teriyaki with Tempura</span>
+        <span class="fav-pill">Crunch Spicy Salmon Roll</span>
+        <span class="fav-pill">Sushi &amp; Sashimi Deluxe</span>
+        <span class="fav-pill">Sushi Sashimi Dinner</span>
+        <span class="fav-pill">Chicken Udon Stir Fry</span>
+        <span class="fav-pill">Black Dragon Roll</span>
+        <span class="fav-pill">Tempura Ice Cream</span>
+        <span class="fav-pill">Chicken Teriyaki</span>
+        <span class="fav-pill">California Roll</span>
+        <span class="fav-pill">Red Dragon Roll</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FULL MENU -->
+  <section id="fullmenu" class="menu-section section-pad">
+    <div class="wrap">
+      <div class="kicker-row reveal">
+        <div>
+          <div class="eyebrow tag">The Full Menu</div>
+          <h2 class="display" style="margin-top:1rem;">Everything on offer.</h2>
+        </div>
+        <p class="lede">Japanese &amp; Korean kitchens, side by side — from the sushi bar to the grill.</p>
+      </div>
+      <div class="menu-photos reveal">
+        <div class="menu-photo">
+          <img src="images/dish-tempura.jpg" alt="Crispy tempura sticks with spiced dipping sauce">
+          <div class="menu-photo-tag">Tempura</div>
+        </div>
+        <div class="menu-photo">
+          <img src="images/dish-udon.jpg" alt="Udon noodle bowl with seared chicken, mushroom and sesame">
+          <div class="menu-photo-tag">Noodle Soup</div>
+        </div>
+        <div class="menu-photo">
+          <img src="images/dish-teriyaki.jpg" alt="Grilled chicken teriyaki plated with scallion and sesame">
+          <div class="menu-photo-tag">Japanese Kitchen</div>
+        </div>
+      </div>
+      <div class="menu-tabs reveal" id="menuTabs"></div>
+      <div id="menuPanels"></div>
     </div>
   </section>
 
@@ -1022,6 +1178,261 @@
     navToggle.classList.remove('open');
     navToggle.setAttribute('aria-expanded', false);
   }));
+
+  // Respect reduced motion for the hero video
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const v = document.getElementById('heroBg');
+    if (v) { v.pause(); v.removeAttribute('autoplay'); }
+  }
+
+  // ===== Full Menu data =====
+  const menuData = {
+    "Starters & Tempura": {
+      note: "Lightly battered and fried, or straight off the small plates list.",
+      groups: [
+        { head: "Starters", items: [
+          {n:"Edamame", d:"Steamed soy bean with salt", p:"5.50"},
+          {n:"Goyza (Beef or Vegetables)", d:"Fried crispy dumplings, mixed beef and vegetables", p:"7.50"},
+          {n:"Seafood Pancake", d:"House style savory pancake, mixed seafood and veggies, with egg mix", p:"19.50"},
+          {n:"Hamachi Kama Grill", d:"Grilled premium yellowtail fish cheek", p:"17.00"},
+          {n:"Tako Yaki", d:"Traditional Japanese octopus ball shaped dumplings", p:"8.50"},
+          {n:"Sushi Pizza", d:"Crispy sushi rice pizza with fresh veggies and spicy salmon (avocado for vegetarian)", p:"12.00"},
+          {n:"Spicy Rice Cake (Dok-Po-Ki)", d:"Stir-fried rice cake with fishcakes and vegetables in spicy house sauce, egg", p:"11.00"},
+        ]},
+        { head: "Tempura", items: [
+          {n:"Small Mix", d:"2 shrimp & 6 vegetable mix", p:"11.95"},
+          {n:"Small Shrimp", d:"4 shrimp tempura", p:"10.95"},
+          {n:"Small Veggie", d:"10pc assorted vegetables", p:"9.95"},
+          {n:"Large Mix", d:"5pc shrimp and 10 vegetable mix", p:"19.95"},
+          {n:"Soft Shell Crab", d:"Lightly battered soft shell crab tempura", p:"14.95"},
+          {n:"Potato Koroke", d:"Japanese panko crispy potato croquette", p:"7.95"},
+          {n:"Age Dashi Tofu", d:"Lightly fried tofu cube, tempura sauce, green onion, bonito flakes", p:"7.95"},
+          {n:"Aji Fry", d:"Panko crispy fried horse mackerel tempura", p:"7.95"},
+          {n:"Chicken Kara Age", d:"Japanese style crispy chicken fried bites", p:"11.50"},
+          {n:"Spicy Chicken Kara Age", d:"Crispy fried chicken bites tossed with Korean style spicy sauce", p:"13.50"},
+        ]},
+      ]
+    },
+    "Soups & Salads": {
+      note: "",
+      groups: [
+        { head: "Soup", items: [
+          {n:"Miso", d:"Tofu, scallions and seaweed", p:"2.95"},
+          {n:"Spicy Seafood Miso", d:"Fresh seafood and veggies in spicy miso broth", p:"6.95"},
+          {n:"Gyoza Soup", d:"Japanese dumpling soup with egg drop", p:"6.95"},
+        ]},
+        { head: "Salad", items: [
+          {n:"House Ginger Salad", d:"House green salad with ginger dressing — add avocado +2.00", p:"5.95"},
+          {n:"Wakame Salad", d:"Japanese seaweed salad with ponzu sauce", p:"7.50"},
+          {n:"Seafood Wakame", d:"Chef's choice seafood with seaweed salad", p:"13.95"},
+          {n:"Sashimi Salad", d:"Chef's choice fresh sashimi with green salad, oriental dressing", p:"13.95"},
+          {n:"Hikari Crab Salad", d:"Mixed green salad with avocado and spicy crab meat", p:"11.95"},
+        ]},
+        { head: "Signature Starters", items: [
+          {n:"Beef Tataki", d:"Thinly sliced premium beef cooked rare, house ponzu sauce", p:"13.95"},
+          {n:"Volcano Shrimp", d:"Crispy fried shrimp & crab meat tossed with house spicy peanut sauce", p:"10.95"},
+          {n:"Korean Short Rib", d:"Traditional Korean BBQ short rib marinated with ginger honey soy sauce, grilled", p:"13.95"},
+          {n:"Tuna Tataki", d:"Thinly sliced seared tuna, greens and onion, spicy ponzu & wasabi mayo", p:"13.95"},
+          {n:"Sashimi Tataki", d:"Assorted fresh sashimi seared with olive oil, ginger, tobiko, masago, yuzu ponzu", p:"21.95"},
+        ]},
+      ]
+    },
+    "Noodle Soup": {
+      note: "",
+      groups: [
+        { head: "Noodle Soup", items: [
+          {n:"Tempura Udon", d:"Plain udon soup with tempura shrimp and veggie on the side", p:"17.95"},
+          {n:"Plain Udon", d:"Plain thick udon noodles with veggies", p:"12.95"},
+          {n:"Veggie Tempura Udon", d:"Plain udon soup with veggie tempura on the side", p:"17.95"},
+          {n:"Nabe Udon", d:"Chicken and veggies with thick noodles, shrimp tempura inside", p:"19.95"},
+          {n:"Seafood Udon (reg or spicy)", d:"Fresh seafood with udon noodles and veggies", p:"19.95"},
+          {n:"Kim Chi Udon", d:"Korean kimchi with udon noodle and veggies", p:"17.95"},
+          {n:"Gyoza Udon", d:"Plain thick udon noodles with veggies and vegetable dumplings", p:"17.95"},
+          {n:"Miso Tonkatsu Ramen", d:"Japanese ramen noodle soup with pork cutlet in spicy miso pork broth", p:"17.95"},
+        ]},
+        { head: "Panfried Noodle", items: [
+          {n:"Spicy Seafood Yaki Udon", d:"Pan fried thick noodles with seafood, veggies, sizzling plate", p:"19.95"},
+          {n:"Spicy Beef (or Chicken) Yaki Udon", d:"Pan fried thick noodles with beef or chicken and veggies, sizzling plate", p:"18.95"},
+        ]},
+      ]
+    },
+    "Sushi & Sashimi": {
+      note: "Sushi (with rice) 2pc, or sashimi (no rice) 3pc — sashimi price in brackets.",
+      groups: [
+        { head: "À La Carte", items: [
+          {n:"Tuna", d:"", p:"7.95 (9.95)"}, {n:"Albacore", d:"", p:"7.95 (9.95)"},
+          {n:"White Tuna", d:"", p:"6.95 (7.95)"}, {n:"Salmon", d:"", p:"5.95 (7.95)"},
+          {n:"Hamachi", d:"", p:"8.95 (10.95)"}, {n:"Saba", d:"", p:"6.95 (8.95)"},
+          {n:"Unaki", d:"", p:"6.95 (8.95)"}, {n:"Tamago", d:"", p:"4.95 (6.95)"},
+          {n:"Ebi", d:"", p:"4.95 (6.95)"}, {n:"Ama Ebi", d:"", p:"7.95 (9.95)"},
+          {n:"Avocado", d:"", p:"4.95"}, {n:"Tako", d:"", p:"7.95 (9.95)"},
+          {n:"Hokigai", d:"", p:"5.95 (7.95)"}, {n:"Ikura", d:"", p:"Market"},
+          {n:"Tobiko", d:"", p:"6.95"}, {n:"Masago", d:"", p:"6.95"},
+          {n:"Kani Kama", d:"", p:"4.95 (6.95)"}, {n:"Inari (Tofu)", d:"", p:"4.95"},
+          {n:"Ika", d:"", p:"5.95 (7.95)"}, {n:"Hotate", d:"", p:"7.95 (9.95)"},
+        ]},
+        { head: "Sushi Bar Entrée", items: [
+          {n:"Sushi Dinner", d:"8pc sushi & 8pc spicy salmon roll", p:"21.95"},
+          {n:"Sushi DX Dinner", d:"11pc sushi & 8pc spicy salmon roll", p:"26.95"},
+          {n:"Sushi and Sashimi Dinner", d:"8pc sashimi and 6pc sushi with spicy salmon roll", p:"29.95"},
+          {n:"Sashimi Dinner", d:"Chef's choice of 16pc fresh sashimi assortment", p:"26.95"},
+          {n:"Chirashi Dinner", d:"Chef's choice of variety fish and seafood on sushi rice bed", p:"24.95"},
+          {n:"Hwe Dup Bap", d:"Fresh veggies and rice with assorted sashimi cube, special dressing", p:"20.95"},
+          {n:"Maki Dinner", d:"California roll, spicy salmon roll and dynamite roll", p:"22.95"},
+          {n:"Maki Deluxe Dinner", d:"Red Dragon roll, Crispy Crunch California, Spicy Tuna roll", p:"27.95"},
+          {n:"Vegetarian Maki Dinner", d:"2pc Inari sushi, Big Veggie roll, Green Yam roll", p:"25.95"},
+        ]},
+        { head: "Big Shareable — chef's daily choice, no substitutions", items: [
+          {n:"Sushi/Roll — Regular", d:"16pc sushi and 3 kinds of rolls", p:"49.95"},
+          {n:"Sushi/Roll — Deluxe", d:"24pc sushi and 4 kinds of rolls", p:"74.95"},
+          {n:"Sashimi — Regular", d:"36pc assortment", p:"59.95"},
+          {n:"Sashimi — Deluxe", d:"56pc assortment", p:"92.95"},
+          {n:"Sushi & Sashimi Deluxe", d:"16pc sushi and 16pc sashimi, choice of dynamite roll (8pc) or shrimp & veggie tempura", p:"59.95"},
+          {n:"Roll Special for 2", d:"5 rolls / 38pc — Black Jack half roll, Green Dragon, Salmon Yaki roll, Calamari Tempura, Crunch Spicy Salmon roll", p:"49.95"},
+        ]},
+      ]
+    },
+    "Classic Rolls": {
+      note: "Add tempura flakes, avocado, or cream cheese — +1.00 each.",
+      groups: [
+        { head: "", items: [
+          {n:"Tuna Avo Q Roll", d:"", p:"8.50"},
+          {n:"Salmon Avo Q Roll", d:"", p:"7.50"},
+          {n:"Negi Hamachi", d:"Yellowtail, scallion", p:"8.50"},
+          {n:"Unaki Q", d:"BBQ eel, cucumber", p:"9.50"},
+          {n:"California", d:"Avocado, cucumber, crab meat", p:"6.95"},
+          {n:"Crispy Crunch California", d:"Spicy crunch avocado, cucumber & crab meat", p:"8.50"},
+          {n:"Shitake & Cucumber", d:"Shitake mushroom and cucumber", p:"7.50"},
+          {n:"AAC", d:"Avocado & cucumber & asparagus", p:"8.00"},
+          {n:"Yam Tempura", d:"Fried sweet potato roll", p:"8.00"},
+          {n:"Yam Avo Roll", d:"Fried sweet potato and avocado roll", p:"8.50"},
+          {n:"Crunch Spicy AAC", d:"Crunch and spicy AAC roll", p:"9.00"},
+          {n:"Spicy Salmon", d:"Spicy salmon & cucumber", p:"7.95"},
+          {n:"Spicy Tuna", d:"Spicy tuna & cucumber", p:"8.50"},
+          {n:"Spicy Scallop", d:"Spicy scallop & cucumber", p:"9.50"},
+          {n:"Spicy Hamachi", d:"Spicy yellowtail & cucumber", p:"9.00"},
+        ]},
+      ]
+    },
+    "Fusion & Specialty Rolls": {
+      note: "",
+      groups: [
+        { head: "", items: [
+          {n:"Philly Roll", d:"Avocado, smoked salmon and cream cheese", p:"8.50"},
+          {n:"Dynamite", d:"Deep fried shrimp and avocado, cucumber, tobiko", p:"8.95"},
+          {n:"Green Yam Roll", d:"Deep fried yam tempura roll covered with avocado on top", p:"11.95"},
+          {n:"Big Veggie Roll", d:"Deep fried yam, asparagus, red pepper, cucumber, avocado, spicy sauce", p:"11.95"},
+          {n:"Futo Maki", d:"Crab meat, tamago, yellow radish, kanpyo, cucumber", p:"Half 9.00 / Full 17.00"},
+          {n:"Black Jack", d:"Unaki, shrimp tempura, cream cheese, avocado, tobiko, crab meat — whole roll deep fried", p:"Half 9.95 / Full 17.95"},
+          {n:"Crunch Spicy Salmon", d:"Spicy salmon & avocado cucumber with tempura bits", p:"9.50"},
+          {n:"Crunch Spicy Tuna", d:"Spicy tuna & avocado cucumber with tempura bits", p:"10.50"},
+          {n:"Crunch Spicy Scallop", d:"Spicy scallop & avocado cucumber with tempura bits", p:"11.50"},
+          {n:"Crunch Spicy Hamachi", d:"Spicy yellowtail & avocado cucumber with tempura bits", p:"11.50"},
+          {n:"Lobster Tempura Roll", d:"Fried lobster tail, avocado, cucumber, crab meat, tobiko", p:"15.95"},
+          {n:"Spider Roll", d:"Fried crunch soft shell crab, avocado, cucumber, masago", p:"15.95"},
+          {n:"Salmon Twist Roll", d:"Spicy salmon, cream cheese, avocado, fresh salmon and onion on top", p:"13.95"},
+          {n:"Calamari Tempura Roll", d:"Fried calamari, cream cheese, cucumber, lettuce, crab meat, tobiko", p:"12.95"},
+          {n:"Deep Spicy Tuna Roll", d:"Spicy tuna, hot pepper, tobiko and cream cheese — whole roll deep fried", p:"12.50"},
+          {n:"Tiger Roll", d:"Spicy tuna, asparagus, cucumber, topped with salmon, shrimp, crab meat", p:"14.95"},
+          {n:"Black Dragon", d:"Fried shrimp and avocado cucumber roll, topped with BBQ eel and tobiko", p:"15.95"},
+          {n:"Red Dragon", d:"Fried shrimp and avocado cucumber roll, topped with fresh salmon", p:"13.95"},
+          {n:"Green Dragon", d:"Fried shrimp and avocado cucumber roll, topped with avocado", p:"13.95"},
+          {n:"Rainbow Roll", d:"Avocado, cucumber, crab meat, topped with variety of fish", p:"13.95"},
+          {n:"Tuna Tataki Roll", d:"Shrimp tempura, avocado, cucumber, cream cheese, topped with seared tataki tuna, spicy", p:"14.95"},
+          {n:"Double Double", d:"Shrimp tempura, avocado, cucumber, cream cheese, topped with cooked shrimp, tempura flakes, tobiko", p:"14.95"},
+          {n:"Tokyo Roll", d:"Shrimp tempura, avocado, cucumber, crab meat, tamago, cream cheese, masago", p:"13.95"},
+          {n:"Fuji San Roll", d:"Shrimp tempura, avocado, cucumber, torched spicy tuna on top — sizzling plate", p:"15.95"},
+          {n:"Mango Dream", d:"Avocado, mango, tempura shrimp, cream cheese, crab meat, cucumber, tobiko", p:"14.95"},
+          {n:"Shogun Roll", d:"Soft shell crab, avocado, cucumber, spicy tuna inside, tempura flakes, tobiko, masago on top", p:"18.95"},
+          {n:"Salmon Yaki Roll", d:"Avocado, cucumber, crab meat, torched spicy salmon and house spicy sauce on top", p:"12.95"},
+          {n:"Firecracker Roll", d:"Shrimp tempura, cucumber & lettuce, green onion, extra spicy tuna roll", p:"15.95"},
+          {n:"Fire Roll", d:"Spicy tuna, cucumber, topped with fresh tuna and spicy sauce", p:"15.95"},
+          {n:"Samurai", d:"Spicy tuna, cucumber, asparagus, topped with avocado, crab meat, BBQ eel, tobiko", p:"15.95"},
+          {n:"White House Roll", d:"Deep fried eel, avocado, tamago, topped with torched white tuna & black tobiko", p:"14.95"},
+          {n:"Crazy Roll", d:"Fried shrimp, tuna & salmon in house spicy sauce, whole roll deep fried, tempura flakes, coconut & almond on top", p:"16.95"},
+          {n:"Sakura", d:"Cooked shrimp, lettuce, cucumber, cream cheese, tobiko, tamago, crab meat, soybean paper wrap", p:"14.95"},
+          {n:"Mango Island Roll", d:"Sweet mango, salmon, tuna, avocado, tobiko, crab meat, cucumber", p:"15.95"},
+        ]},
+      ]
+    },
+    "Japanese Kitchen": {
+      note: "",
+      groups: [
+        { head: "Teriyaki Dinner — grilled meat, teriyaki sauce, yam tempura, mixed veggie", items: [
+          {n:"Chicken", d:"", p:"18.95"},
+          {n:"Beef", d:"", p:"21.95"},
+          {n:"Salmon", d:"", p:"21.95"},
+        ]},
+        { head: "Katsu & Grill", items: [
+          {n:"Ton Katsu (Pork Cutlet)", d:"Deep fried pork loin, crispy breaded, cabbage salad", p:"17.95"},
+          {n:"Chicken Katsu", d:"Deep fried chicken breast, crispy breaded, cabbage salad", p:"17.95"},
+          {n:"Unaki Kabayaki", d:"Smoky charcoal grilled eel, pan fried onion bed, served with rice", p:"31.95"},
+        ]},
+        { head: "Katsu Curry — deep fried cutlet & rice with Japanese curry", items: [
+          {n:"Tonkatsu Curry (Pork Cutlet)", d:"", p:"16.95"},
+          {n:"Ebi Curry (Shrimp Tempura)", d:"", p:"17.95"},
+          {n:"Koroke Curry (Crispy Potato)", d:"", p:"15.95"},
+        ]},
+        { head: "Bento Combination — served with salad, miso soup, gyoza, 4pc roll", items: [
+          {n:"Chicken Teriyaki with Tempura", d:"Grilled chicken teriyaki with tempura assortment", p:"25.95"},
+          {n:"Beef Teriyaki with Tempura", d:"Grilled beef teriyaki with tempura assortment", p:"27.95"},
+          {n:"Tonkatsu with Tempura", d:"Crispy pork cutlet with tempura assortment", p:"25.95"},
+          {n:"Sushi & Sashimi with Tempura", d:"Fresh sushi 5pc and sashimi 7pc sample with tempura assortment", p:"30.95"},
+        ]},
+      ]
+    },
+    "Korean Kitchen": {
+      note: "",
+      groups: [
+        { head: "", items: [
+          {n:"Korean BBQ Beef Short Ribs", d:"Smoky charcoal grilled beef short ribs, marinated in soy-ginger", p:"28.95"},
+          {n:"Spicy Fish Soup (Mewun Tang)", d:"Spicy soup with fish and veggies, tofu cube inside", p:"20.95"},
+          {n:"Seafood Tofu Soup", d:"Spicy seafood mix with silky soft tofu soup and egg", p:"16.95"},
+          {n:"Jam-Bong (Rice or Noodle)", d:"Korean style spicy seafood soup with veggies, rice or noodle", p:"18.95"},
+          {n:"Hot Stone Bowl Bibimbap", d:"Hot stone rice bowl, variety veggies and beef, sunny-side egg", p:"17.95"},
+          {n:"Vegan Hot Stone Bowl Bibimbap", d:"Hot stone rice bowl with tofu and veggies", p:"16.95"},
+          {n:"Bool Ko Ki", d:"Thinly sliced beef with veggies in sweet soy ginger sauce, served with rice", p:"20.95"},
+          {n:"Pork-Bone Soup", d:"Spicy pork bone soup with potato & veggies", p:"15.95"},
+          {n:"Tang Soo Yook", d:"Crispy fried pork bites, sweet and sour orange-pepper-onion sauce on the side", p:"28.95"},
+          {n:"Hwe Dup Bap", d:"Fresh veggies and sashimi cube mixed with rice in house spicy dressing", p:"20.95"},
+          {n:"Seafood Pancake (Pa Jeon)", d:"Seafood & veggies pancake, house sesame soy sauce", p:"21.95"},
+          {n:"Kimchi Pancake", d:"Kimchi with veggies pancake, house sesame soy sauce", p:"17.95"},
+        ]},
+      ]
+    },
+  };
+
+  const tabsEl = document.getElementById('menuTabs');
+  const panelsEl = document.getElementById('menuPanels');
+  Object.keys(menuData).forEach((cat, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'menu-tab' + (i===0 ? ' active' : '');
+    btn.textContent = cat;
+    btn.setAttribute('data-cat', cat);
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.menu-tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-' + i).classList.add('active');
+    });
+    tabsEl.appendChild(btn);
+
+    const panel = document.createElement('div');
+    panel.className = 'menu-panel' + (i===0 ? ' active' : '');
+    panel.id = 'panel-' + i;
+    let html = '';
+    if (menuData[cat].note) html += `<p class="menu-panel-note">${menuData[cat].note}</p>`;
+    html += '<div class="menu-list">';
+    menuData[cat].groups.forEach(g => {
+      if (g.head) html += `<div class="menu-subhead">${g.head}</div>`;
+      g.items.forEach(item => {
+        html += `<div class="menu-item"><div class="menu-item-row"><span class="menu-item-name">${item.n}</span><span class="menu-item-price">${item.p}</span></div>${item.d ? `<div class="menu-item-desc">${item.d}</div>` : ''}</div>`;
+      });
+    });
+    html += '</div>';
+    panel.innerHTML = html;
+    panelsEl.appendChild(panel);
+  });
 
   // Hero: cursor-follow glow + parallax background
   const hero = document.querySelector('.hero');
