@@ -886,6 +886,15 @@
     <div class="hero-scroll"><span class="line"></span> Scroll</div>
   </section>
 
+  <!-- MISSION STATEMENT -->
+  <section class="section-pad" style="padding-top:4rem; padding-bottom:4rem;">
+    <div class="wrap reveal" style="max-width:900px; text-align:center;">
+      <p style="font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(1.6rem,3.4vw,2.6rem); line-height:1.3; color:var(--ink);">
+        Our goal is to create food that <em style="color:var(--lacquer); font-style:italic;">restores</em>, <em style="color:var(--lacquer); font-style:italic;">replenishes</em>, and <em style="color:var(--lacquer); font-style:italic;">revives</em>.
+      </p>
+    </div>
+  </section>
+
   <div class="marquee" role="presentation" aria-hidden="true">
     <div class="marquee-track">
       <span>Omakase Nights <span>Fresh Sashimi Daily</span></span>
@@ -916,7 +925,7 @@
         <p>Hikari offers an exceptional dining experience — a spotless location, attentive service and food that earns its reputation. The room feels warm, clean and welcoming, the kind of place you return to on instinct.</p>
         <p>Each piece of sushi glistens with freshness: salmon that's buttery, tuna that's rich and vibrant, rice seasoned with real restraint. Presentation is artful and vivid, every plate composed rather than assembled. Guests also return for the tonkotsu ramen, deep and slow-built, and for rolls that hold their own against the sashimi.</p>
         <div class="stat-row">
-          <div class="stat"><b>1890s</b><span>Restored Victorian House</span></div>
+          <div class="stat"><b>2007</b><span>Serving Windsor Since</span></div>
           <div class="stat"><b>Daily</b><span>Fresh Fish Deliveries</span></div>
           <div class="stat"><b>345</b><span>Victoria Avenue</span></div>
         </div>
@@ -1035,6 +1044,7 @@
         <div class="eyebrow tag">The Story</div>
         <blockquote class="story-quote">The care put into each roll is evident in the delicate slices of fish, the crisp nori, the balanced flavours.</blockquote>
         <p style="font-weight:300; color:var(--ink-soft); max-width:50ch; margin-bottom:1.6rem;">Downtown Windsor's Hikari sits inside a black-and-white Victorian house on Victoria Avenue — a set of small, warm rooms that trade the usual sushi-bar chrome for something closer to a home. Bento dinners arrive with miso soup, a crisp salad and teriyaki beef; a Spicy Seafood Yaki Udon comes hissing off the skillet. It's a menu built around comfort as much as craft, priced for occasions worth marking.</p>
+        <p style="font-weight:300; color:var(--ink-soft); max-width:50ch; margin-top:1.2rem;">Ask for a seat at our traditional <b style="color:var(--lacquer); font-weight:600;">tatami</b> area — low tables, floor seating, and a slower kind of dinner, the way it's meant to be experienced.</p>
         <div class="signoff"><span class="line"></span><span>A true gem in downtown Windsor</span></div>
       </div>
     </div>
@@ -1206,6 +1216,9 @@
     const v = document.getElementById('heroBg');
     if (v) { v.pause(); v.removeAttribute('autoplay'); }
   }
+
+  const heroVideo = document.getElementById('heroBg');
+  if (heroVideo) { heroVideo.playbackRate = 0.6; }
 
   // ===== Full Menu data =====
   const menuData = {
