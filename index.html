@@ -28,7 +28,7 @@
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; overflow-x:hidden; width:100%;}
   body{
     background:var(--ivory);
     color:var(--ink);
@@ -36,6 +36,7 @@
     font-weight:400;
     line-height:1.5;
     overflow-x:hidden;
+    width:100%;
     -webkit-font-smoothing:antialiased;
   }
   img{max-width:100%;display:block;}
@@ -160,6 +161,11 @@
       background:none; border:none; color:inherit;
       z-index:110;
       width:26px; height:18px; position:relative; cursor:pointer;
+    }
+    .nav-toggle::before{
+      content:'';
+      position:absolute;
+      inset:-13px -9px; /* expands tap target to ~44x44 without resizing the visual icon */
     }
     .nav-toggle span{
       position:absolute; left:0; width:100%; height:1px; background:currentColor;
@@ -313,6 +319,10 @@
   }
   .hero-scroll .line{width:1px; height:34px; background:linear-gradient(var(--gold),transparent); animation:scrollpulse 2.2s infinite ease-in-out;}
   @keyframes scrollpulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+  @media (max-width:880px){
+    /* Hero copy runs tall enough on phones/tablets to collide with this hint — drop it rather than overlap the CTA/heading. */
+    .hero-scroll{display:none;}
+  }
 
   /* ===== Marquee strip ===== */
   .marquee{
@@ -491,11 +501,15 @@
     font-size:0.82rem; color:var(--ivory-dim); font-weight:300; max-width:26ch;
   }
   @media (max-width:980px){
+    .dishes-dark{overflow-x:hidden;}
     .dish-grid{grid-template-columns:repeat(2,1fr);}
     .dish-card:first-child{grid-row:span 1; aspect-ratio:3/4.2;}
   }
   @media (max-width:560px){
     .dish-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:980px){
+    .dish-info .num{font-size:0.74rem;}
   }
 
   /* ===== Story / chef ===== */
@@ -568,8 +582,13 @@
   }
   .gallery-grid > div:hover::before{opacity:1;}
   @media (max-width:880px){
+    #gallery{overflow-x:hidden;}
     .gallery-grid{grid-template-columns:repeat(2,1fr); grid-auto-rows:34vw;}
     .g1,.g2,.g3,.g4,.g5{grid-column:span 1; grid-row:span 1;}
+    /* Drop the horizontal translateX/rotateY reveal on touch widths — it's the classic cause of
+       phantom horizontal scroll on WebKit when 3D transforms sit inside an overflow:hidden ancestor. */
+    .gallery-grid > div{transform:rotateY(0deg) translateX(0) scale(0.94);}
+    .gallery-grid > div:nth-child(2n){transform:rotateY(0deg) translateX(0) scale(0.94);}
   }
 
   /* ===== Reviews ===== */
@@ -718,8 +737,8 @@
   .menu-subhead:first-child{margin-top:0;}
   @media (max-width:780px){
     .menu-list{columns:1;}
-    .menu-tabs{gap:0.5rem; padding-bottom:1.2rem; margin-bottom:2rem;}
-    .menu-tab{padding:8px 14px; font-size:0.7rem;}
+    .menu-tabs{gap:0.6rem; padding-bottom:1.2rem; margin-bottom:2rem;}
+    .menu-tab{padding:10px 16px;}
   }
   .location{
     display:grid;
@@ -815,6 +834,9 @@
     .footer-top{grid-template-columns:1fr;}
     .hero-inner{grid-template-columns:1fr;}
     .hero-sub{padding-bottom:0;}
+  }
+  @media (max-width:880px){
+    .eyebrow{font-size:0.76rem;}
   }
 </style>
 </head>
