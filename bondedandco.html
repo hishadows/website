@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonded & Co. — Permanent Jewelry Pop-Up | Windsor & Essex County</title>
+<meta name="description" content="Bonded & Co. is Windsor & Essex County's permanent jewelry pop-up. Sterling silver, gold filled & rose gold filled chains, welded on for good. Book a party of 5+ and we come to you.">
+<meta name="theme-color" content="#FF3E8E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pearl:#FFFCF6;
+    --pearl-dim:#F5EFE4;
+    --ink:#17151C;
+    --ink-soft:#3A3641;
+    --chrome:#D8DBE2;
+    --chrome-line:rgba(23,21,28,0.12);
+    --flash:#FF3E8E;
+    --flash-deep:#E01F72;
+    --volt:#CBFF4D;
+    --violet:#7B5CFF;
+    --sky:#4DE1FF;
+    --holo: linear-gradient(120deg, var(--flash), var(--violet) 35%, var(--sky) 65%, var(--volt));
+    --display:'Bricolage Grotesque', sans-serif;
+    --body:'Inter', sans-serif;
+    --script:'Caveat', cursive;
+    --ease: cubic-bezier(.22,.61,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--pearl);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.5;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,video{max-width:100%;display:block;}
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--flash); color:#fff;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+  :focus-visible{outline:3px solid var(--flash); outline-offset:3px;}
+
+  .wrap{max-width:1360px; margin:0 auto; padding-left:6vw; padding-right:6vw;}
+  .section-pad{padding:min(9vw,96px) 0;}
+
+  .eyebrow{
+    font-family:var(--body); font-weight:800; font-size:0.72rem;
+    letter-spacing:.16em; text-transform:uppercase;
+    display:inline-flex; align-items:center; gap:8px;
+    color:var(--flash-deep);
+  }
+  .eyebrow::before{content:'✦';}
+
+  h2.display{
+    font-family:var(--display); font-weight:700; letter-spacing:-0.02em;
+    font-size:clamp(2.1rem,5vw,3.6rem); line-height:1.02;
+  }
+  .script{font-family:var(--script); font-weight:700; color:var(--flash-deep);}
+
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--body); font-weight:800; font-size:0.86rem;
+    padding:15px 28px; border-radius:999px;
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+  }
+  .btn-flash{background:var(--flash); color:#fff; box-shadow:0 8px 24px rgba(255,62,142,0.35);}
+  .btn-flash:hover{transform:translateY(-3px) scale(1.02); box-shadow:0 14px 32px rgba(255,62,142,0.45);}
+  .btn-ink{background:var(--ink); color:var(--pearl);}
+  .btn-ink:hover{transform:translateY(-3px) scale(1.02);}
+  .btn-outline{border:2px solid var(--ink); color:var(--ink);}
+  .btn-outline:hover{background:var(--ink); color:var(--pearl); transform:translateY(-3px);}
+
+  .reveal{opacity:0; transform:translateY(32px); transition:opacity .8s var(--ease), transform .8s var(--ease);}
+  .reveal.in-view{opacity:1; transform:translateY(0);}
+  .reveal.d1{transition-delay:.1s;} .reveal.d2{transition-delay:.2s;} .reveal.d3{transition-delay:.3s;}
+
+  /* ===== Header ===== */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 6vw;
+    background:rgba(255,252,246,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--chrome-line);
+    transition:padding .3s var(--ease);
+  }
+  .logo{
+    font-family:var(--display); font-weight:800; font-size:1.3rem;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{width:8px; height:8px; border-radius:50%; background:var(--holo); display:inline-block;}
+  nav{display:flex; gap:2rem; align-items:center;}
+  nav a{font-weight:700; font-size:0.82rem; letter-spacing:.02em;}
+  nav a:not(.nav-cta){position:relative; padding-bottom:3px;}
+  nav a:not(.nav-cta)::after{content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--flash);transition:width .3s var(--ease);}
+  nav a:not(.nav-cta):hover::after{width:100%;}
+  .nav-cta{background:var(--ink); color:var(--pearl); padding:10px 20px; border-radius:999px; font-weight:800;}
+  .nav-toggle{display:none;}
+  @media (max-width:900px){
+    nav{
+      position:fixed; inset:0; top:64px;
+      background:var(--pearl);
+      flex-direction:column; justify-content:flex-start; padding-top:3rem;
+      gap:1.8rem;
+      transform:translateX(100%);
+      transition:transform .45s var(--ease);
+    }
+    nav.open{transform:translateX(0);}
+    nav a{font-size:1.15rem;}
+    .nav-toggle{
+      display:block; background:none; border:none; z-index:110; cursor:pointer;
+      width:26px; height:18px; position:relative;
+    }
+    .nav-toggle span{position:absolute; left:0; width:100%; height:2px; background:var(--ink); border-radius:2px; transition:transform .3s var(--ease), opacity .3s var(--ease);}
+    .nav-toggle span:nth-child(1){top:0;}
+    .nav-toggle span:nth-child(2){top:8px;}
+    .nav-toggle span:nth-child(3){top:16px;}
+    .nav-toggle.open span:nth-child(1){transform:translateY(8px) rotate(45deg);}
+    .nav-toggle.open span:nth-child(2){opacity:0;}
+    .nav-toggle.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}
+  }
+
+  /* ===== Hero ===== */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex; align-items:center;
+    padding-top:80px;
+    overflow:hidden;
+    background:var(--pearl);
+  }
+  .hero::before{
+    content:'';
+    position:absolute; top:-20%; right:-15%;
+    width:70vw; height:70vw; max-width:900px; max-height:900px;
+    background:var(--holo);
+    opacity:0.28;
+    filter:blur(90px);
+    border-radius:50%;
+    z-index:0;
+  }
+  .hero-grid{
+    position:relative; z-index:1;
+    display:grid; grid-template-columns:1.1fr 0.9fr;
+    gap:4vw; align-items:center;
+    width:100%;
+  }
+  .hero-copy .eyebrow{margin-bottom:1.2rem;}
+  .hero h1{
+    font-family:var(--display); font-weight:800; letter-spacing:-0.03em;
+    font-size:clamp(2.6rem,6vw,4.6rem); line-height:0.98;
+  }
+  .hero h1 .script{
+    display:block; font-family:var(--script); font-weight:700;
+    font-size:1.25em; line-height:1; margin-top:0.1em;
+    background:var(--holo);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero-copy p{
+    font-size:1.05rem; color:var(--ink-soft); max-width:42ch; margin:1.5rem 0 2.2rem;
+  }
+  .btn-row{display:flex; gap:1rem; flex-wrap:wrap;}
+  .hero-visual{
+    position:relative;
+    display:grid; grid-template-columns:1fr 1fr; gap:14px;
+  }
+  .hero-visual img{
+    width:100%; height:100%; object-fit:cover; border-radius:18px;
+  }
+  .hv-a{grid-column:1; grid-row:1/3; aspect-ratio:3/4.4;}
+  .hv-b{grid-column:2; aspect-ratio:1/1;}
+  .hv-c{grid-column:2; aspect-ratio:1/1;}
+  .hero-badge{
+    position:absolute; top:-18px; left:-18px;
+    background:var(--ink); color:var(--pearl);
+    width:110px; height:110px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center; font-family:var(--display); font-weight:700; font-size:0.72rem;
+    line-height:1.2; letter-spacing:.02em;
+    animation:spin 16s linear infinite;
+    z-index:2;
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+  }
+  @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-visual{margin-top:2.4rem;}
+  }
+
+  /* ===== Marquee ===== */
+  .marquee{
+    background:var(--ink); color:var(--pearl);
+    overflow:hidden; white-space:nowrap; padding:16px 0;
+  }
+  .marquee-track{display:inline-flex; animation:mq 28s linear infinite;}
+  .marquee span{
+    font-family:var(--display); font-weight:700; font-size:1.05rem;
+    padding:0 2rem; display:inline-flex; align-items:center; gap:2rem;
+    text-transform:uppercase; letter-spacing:.02em;
+  }
+  .marquee span::after{content:'✦'; color:var(--volt);}
+  @keyframes mq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  /* ===== Bond Flash divider (signature element) ===== */
+  .bond-divider{
+    position:relative;
+    height:140px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--pearl);
+    overflow:hidden;
+  }
+  .bond-divider svg{width:120px; height:70px; overflow:visible;}
+  .bd-link{fill:none; stroke:var(--ink); stroke-width:5; stroke-linecap:round;}
+  .bd-link.right{transform:translateX(0); transition:transform 1.1s var(--ease);}
+  .bond-divider.in-view .bd-link.right{transform:translateX(-6px);}
+  .bd-flash{
+    opacity:0; transform:scale(0.3);
+    transition:opacity .3s ease, transform .5s var(--ease);
+  }
+  .bond-divider.in-view .bd-flash{opacity:1; transform:scale(1); transition-delay:.85s;}
+  .bond-divider.in-view .bd-flash{animation:flashpop .6s var(--ease) .85s;}
+  @keyframes flashpop{0%{opacity:0; transform:scale(0.2);}50%{opacity:1; transform:scale(1.4);}100%{opacity:1; transform:scale(1);}}
+  .bond-line{position:absolute; left:0; right:0; top:50%; height:1px; background:var(--chrome-line);}
+
+  /* ===== About ===== */
+  .about{
+    display:grid; grid-template-columns:0.85fr 1.15fr; gap:5vw; align-items:center;
+  }
+  .about-badges{display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.8rem;}
+  .badge{
+    background:var(--pearl-dim); border:1.5px solid var(--chrome-line);
+    padding:9px 16px; border-radius:999px; font-weight:700; font-size:0.82rem;
+  }
+  .badge.pop{background:var(--ink); color:var(--pearl); border-color:var(--ink);}
+  .stat-strip{display:flex; gap:2.6rem; margin-top:2.4rem; flex-wrap:wrap;}
+  .stat b{
+    font-family:var(--display); font-size:2.1rem; font-weight:800;
+    background:var(--holo); -webkit-background-clip:text; background-clip:text; color:transparent;
+    display:block;
+  }
+  .stat span{font-size:0.76rem; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:var(--ink-soft);}
+  .about-visual{position:relative;}
+  .about-visual img{border-radius:22px; width:100%; aspect-ratio:4/5; object-fit:cover;}
+  .about-sticker{
+    position:absolute; bottom:-22px; right:-14px;
+    background:var(--volt); color:var(--ink);
+    font-family:var(--script); font-weight:700; font-size:1.5rem;
+    padding:16px 26px; border-radius:50% 50% 50% 6px;
+    transform:rotate(-6deg);
+    box-shadow:0 10px 26px rgba(0,0,0,0.15);
+  }
+
+  /* ===== How it works ===== */
+  .how{background:var(--ink); color:var(--pearl);}
+  .how-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1.6rem; margin-top:3rem;
+  }
+  .how-step{
+    background:rgba(255,252,246,0.05);
+    border:1px solid rgba(255,252,246,0.12);
+    border-radius:20px;
+    padding:2rem 1.6rem;
+    transition:transform .4s var(--ease), background .4s var(--ease), border-color .4s var(--ease);
+  }
+  .how-step:hover{transform:translateY(-8px); background:rgba(255,252,246,0.09); border-color:var(--flash);}
+  .how-num{
+    font-family:var(--display); font-weight:800; font-size:2.2rem;
+    background:var(--holo); -webkit-background-clip:text; background-clip:text; color:transparent;
+    margin-bottom:1rem; display:block;
+  }
+  .how-step h3{font-family:var(--display); font-weight:700; font-size:1.15rem; margin-bottom:.5rem;}
+  .how-step p{font-size:0.88rem; color:rgba(255,252,246,0.65); font-weight:400;}
+  @media (max-width:900px){.how-grid{grid-template-columns:1fr 1fr;}}
+  @media (max-width:560px){.how-grid{grid-template-columns:1fr;}}
+
+  /* ===== Jewelry gallery ===== */
+  .jewel-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem;
+  }
+  .jewel-card{
+    position:relative; overflow:hidden; border-radius:20px; aspect-ratio:4/5;
+  }
+  .jewel-card img{width:100%; height:100%; object-fit:cover; transition:transform .8s var(--ease);}
+  .jewel-card:hover img{transform:scale(1.08);}
+  .jewel-tag{
+    position:absolute; left:14px; bottom:14px;
+    background:rgba(255,252,246,0.92); backdrop-filter:blur(6px);
+    padding:8px 16px; border-radius:999px; font-weight:800; font-size:0.78rem;
+  }
+  @media (max-width:900px){.jewel-grid{grid-template-columns:1fr 1fr;}}
+  @media (max-width:560px){.jewel-grid{grid-template-columns:1fr;}}
+
+  /* ===== Events ===== */
+  .events{background:var(--pearl-dim);}
+  .event-list{display:flex; flex-direction:column; gap:1.4rem; margin-top:2.6rem;}
+  .event-card{
+    display:grid; grid-template-columns:220px 1fr auto;
+    gap:1.8rem; align-items:center;
+    background:var(--pearl);
+    border:1.5px solid var(--chrome-line);
+    border-radius:20px;
+    padding:1.4rem;
+    transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+  }
+  .event-card:hover{transform:translateY(-4px); box-shadow:0 20px 40px rgba(23,21,28,0.08);}
+  .event-img{width:220px; height:150px; border-radius:14px; overflow:hidden;}
+  .event-img img{width:100%; height:100%; object-fit:cover;}
+  .event-date{
+    font-family:var(--display); font-weight:800; font-size:0.78rem;
+    color:var(--flash-deep); letter-spacing:.05em; text-transform:uppercase; margin-bottom:.4rem;
+  }
+  .event-card h3{font-family:var(--display); font-weight:700; font-size:1.3rem; margin-bottom:.4rem;}
+  .event-card p{font-size:0.9rem; color:var(--ink-soft);}
+  .event-loc{font-size:0.82rem; font-weight:700; color:var(--ink-soft); margin-top:.5rem; display:flex; align-items:center; gap:6px;}
+  @media (max-width:780px){
+    .event-card{grid-template-columns:1fr; text-align:left;}
+    .event-img{width:100%; height:180px;}
+  }
+
+  /* ===== Reels / Instagram ===== */
+  .reels-section{}
+  .ig-row{display:flex; justify-content:space-between; align-items:flex-end; gap:1.6rem; flex-wrap:wrap; margin-bottom:2.6rem;}
+  .ig-follow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-weight:800; font-size:0.9rem;
+  }
+  .reel-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem;}
+  .reel-card{
+    position:relative; border-radius:20px; overflow:hidden; aspect-ratio:9/16;
+    background:var(--ink); cursor:pointer;
+  }
+  .reel-card video, .reel-card img{width:100%; height:100%; object-fit:cover;}
+  .reel-card video{position:absolute; inset:0;}
+  .reel-play{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(23,21,28,0.25);
+    transition:opacity .3s ease;
+  }
+  .reel-play-btn{
+    width:58px; height:58px; border-radius:50%;
+    background:rgba(255,252,246,0.92);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 24px rgba(0,0,0,0.3);
+  }
+  .reel-play-btn svg{width:20px; height:20px; margin-left:3px;}
+  .reel-card.playing .reel-play{opacity:0; pointer-events:none;}
+  @media (max-width:780px){.reel-grid{grid-template-columns:1fr 1fr 1fr; gap:0.7rem;}}
+
+  /* ===== Party CTA ===== */
+  .party-band{
+    position:relative;
+    background:var(--holo);
+    color:#fff;
+    text-align:center;
+    padding:min(9vw,90px) 6vw;
+    overflow:hidden;
+  }
+  .party-band::before{
+    content:''; position:absolute; inset:0; background:rgba(23,21,28,0.28);
+  }
+  .party-band > *{position:relative; z-index:1;}
+  .party-band .eyebrow{color:#fff;}
+  .party-band h2{
+    font-family:var(--display); font-weight:800; font-size:clamp(2.2rem,5.4vw,3.8rem);
+    max-width:18ch; margin:1rem auto 1.2rem; line-height:1.03;
+  }
+  .party-band p{max-width:52ch; margin:0 auto 2.2rem; font-size:1.02rem; color:rgba(255,255,255,0.9);}
+  .reward-chip{
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,0.16); backdrop-filter:blur(6px);
+    padding:10px 20px; border-radius:999px; font-weight:800; font-size:0.82rem;
+    margin-bottom:1.8rem;
+  }
+  .party-band .btn-flash{background:#fff; color:var(--flash-deep); box-shadow:0 10px 30px rgba(0,0,0,0.2);}
+  .party-band .btn-flash:hover{background:var(--ink); color:#fff;}
+  .party-band .btn-outline{border-color:#fff; color:#fff;}
+  .party-band .btn-outline:hover{background:#fff; color:var(--flash-deep);}
+
+  /* ===== Contact ===== */
+  .contact{display:grid; grid-template-columns:1fr 1fr; gap:5vw; align-items:center;}
+  .contact-card{
+    background:var(--ink); color:var(--pearl); border-radius:24px; padding:2.6rem;
+  }
+  .contact-card h3{font-family:var(--display); font-weight:700; font-size:1.5rem; margin-bottom:1.4rem;}
+  .contact-row{display:flex; align-items:center; gap:14px; padding:1rem 0; border-bottom:1px solid rgba(255,252,246,0.14);}
+  .contact-row:last-child{border-bottom:none;}
+  .contact-row .ic{
+    width:40px; height:40px; border-radius:50%; background:var(--holo);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .contact-row a{font-weight:700; font-size:1.02rem;}
+  @media (max-width:900px){.contact{grid-template-columns:1fr;}}
+
+  /* ===== Footer ===== */
+  footer{background:var(--ink); color:rgba(255,252,246,0.7); padding:60px 6vw 26px;}
+  .footer-top{display:flex; justify-content:space-between; align-items:flex-start; gap:2rem; flex-wrap:wrap; padding-bottom:2.4rem; border-bottom:1px solid rgba(255,252,246,0.14);}
+  .footer-logo{font-family:var(--display); font-weight:800; font-size:1.5rem; color:var(--pearl); display:flex; align-items:center; gap:8px; margin-bottom:.8rem;}
+  .footer-top p{max-width:34ch; font-size:0.88rem;}
+  .footer-links{display:flex; gap:2.4rem; flex-wrap:wrap;}
+  .footer-links a{font-size:0.86rem; font-weight:700; color:rgba(255,252,246,0.85);}
+  .footer-bottom{display:flex; justify-content:space-between; padding-top:1.6rem; font-size:0.76rem; flex-wrap:wrap; gap:1rem;}
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <a href="#top" class="logo"><span class="dot"></span>Bonded&amp;Co.</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <nav id="navMenu">
+    <a href="#about">About</a>
+    <a href="#how">How It Works</a>
+    <a href="#jewelry">Jewelry</a>
+    <a href="#events">Events</a>
+    <a href="#reels">Reels</a>
+    <a href="#book" class="nav-cta">Book a Party</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow">Windsor &amp; Essex County</div>
+        <h1>Say goodbye<br>to clasps.<span class="script">Get bonded.</span></h1>
+        <p>Bonded &amp; Co. is your new favorite permanent jewelry pop-up — sterling silver, gold filled, and rose gold filled chains, welded onto your wrist right there on the spot.</p>
+        <div class="btn-row">
+          <a href="#book" class="btn btn-flash">Book a Party</a>
+          <a href="https://www.instagram.com/bondedandco" target="_blank" rel="noopener" class="btn btn-outline">Follow @bondedandco</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-badge">FOREVER<br>WELDED<br>ON</div>
+        <img class="hv-a" src="images/party-friends-fistbump.jpg" alt="Friends showing off their new permanent jewelry bracelets at a Bonded & Co pop-up">
+        <img class="hv-b" src="images/jewelry-birthstone-bracelets.jpg" alt="Birthstone charm bracelets by Bonded & Co">
+        <img class="hv-c" src="images/jewelry-hand-chain.jpg" alt="Delicate hand chain jewelry by Bonded & Co">
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Permanent Jewelry <span>Windsor &amp; Essex County</span></span>
+      <span>Book a Party of 5+ <span>We Come To You</span></span>
+      <span>Sterling Silver <span>Gold Filled · Rose Gold Filled</span></span>
+      <span>Permanent Jewelry <span>Windsor &amp; Essex County</span></span>
+      <span>Book a Party of 5+ <span>We Come To You</span></span>
+      <span>Sterling Silver <span>Gold Filled · Rose Gold Filled</span></span>
+    </div>
+  </div>
+
+  <!-- BOND DIVIDER -->
+  <div class="bond-divider" aria-hidden="true">
+    <div class="bond-line"></div>
+    <svg viewBox="0 0 120 70">
+      <path class="bd-link left" d="M20,35 a15,15 0 1,0 0.1,0"/>
+      <path class="bd-link right" d="M100,35 a15,15 0 1,0 0.1,0"/>
+      <g class="bd-flash">
+        <circle cx="60" cy="35" r="3" fill="var(--volt)"/>
+        <path d="M60,20 L63,32 L72,32 L64,38 L67,50 L60,42 L53,50 L56,38 L48,32 L57,32 Z" fill="var(--flash)" transform="scale(0.5) translate(60,35)"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about" class="section-pad">
+    <div class="wrap about">
+      <div class="about-visual reveal">
+        <img src="images/jewelry-hand-chain.jpg" alt="Layered chain jewelry on a hand, Bonded & Co style">
+        <div class="about-sticker">bonded<br>for life</div>
+      </div>
+      <div class="reveal d1">
+        <div class="eyebrow">We Are Bonded&amp;Co.</div>
+        <h2 class="display" style="margin:1rem 0 1.4rem;">Your new favorite permanent jewelry pop-up.</h2>
+        <p style="color:var(--ink-soft); max-width:52ch; font-size:1.02rem;">We bring the experience of permanent jewelry to Windsor and Essex County — bracelets, anklets, necklaces and rings, welded closed right on you. No clasps, no losing it, no taking it off. Just on, and bonded.</p>
+        <div class="about-badges">
+          <span class="badge pop">Sterling Silver</span>
+          <span class="badge pop">Gold Filled</span>
+          <span class="badge pop">Rose Gold Filled</span>
+          <span class="badge">Charms &amp; Connectors Available</span>
+        </div>
+        <div class="stat-strip">
+          <div class="stat"><b>$50–85</b><span>Price Range</span></div>
+          <div class="stat"><b>5+</b><span>Party Minimum</span></div>
+          <div class="stat"><b>Free</b><span>Hostess Bracelet + Charm</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="bond-divider" aria-hidden="true">
+    <div class="bond-line"></div>
+    <svg viewBox="0 0 120 70">
+      <path class="bd-link left" d="M20,35 a15,15 0 1,0 0.1,0"/>
+      <path class="bd-link right" d="M100,35 a15,15 0 1,0 0.1,0"/>
+      <g class="bd-flash">
+        <circle cx="60" cy="35" r="3" fill="var(--volt)"/>
+        <path d="M60,20 L63,32 L72,32 L64,38 L67,50 L60,42 L53,50 L56,38 L48,32 L57,32 Z" fill="var(--flash)" transform="scale(0.5) translate(60,35)"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="how section-pad">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow" style="color:var(--volt);">The Process</div>
+        <h2 class="display" style="margin-top:1rem; color:var(--pearl);">Four steps to forever.</h2>
+      </div>
+      <div class="how-grid reveal d1">
+        <div class="how-step"><span class="how-num">01</span><h3>Pick your chain</h3><p>Sterling silver, gold filled, or rose gold filled — pick the metal and the style.</p></div>
+        <div class="how-step"><span class="how-num">02</span><h3>Add charms</h3><p>Birthstones, initials, symbols — build a piece that's actually yours.</p></div>
+        <div class="how-step"><span class="how-num">03</span><h3>Get bonded</h3><p>We weld the chain closed right on your wrist, ankle, or neck. Quick and painless.</p></div>
+        <div class="how-step"><span class="how-num">04</span><h3>Wear it forever</h3><p>No clasp to lose, no chain to break. It's on for good.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JEWELRY GALLERY -->
+  <section id="jewelry" class="section-pad">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">The Pieces</div>
+        <h2 class="display" style="margin-top:1rem;">Chains, charms &amp; connectors.</h2>
+      </div>
+      <div class="jewel-grid reveal d1" style="margin-top:2.6rem;">
+        <div class="jewel-card"><img src="images/jewelry-birthstone-bracelets.jpg" alt="Birthstone charm bracelets"><span class="jewel-tag">Birthstone Bracelets</span></div>
+        <div class="jewel-card"><img src="images/jewelry-hand-chain.jpg" alt="Layered hand chain with rings"><span class="jewel-tag">Hand Chains</span></div>
+        <div class="jewel-card"><img src="images/party-friends-fistbump.jpg" alt="Group of friends showing matching bracelets"><span class="jewel-tag">Friend Sets</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="bond-divider" aria-hidden="true">
+    <div class="bond-line"></div>
+    <svg viewBox="0 0 120 70">
+      <path class="bd-link left" d="M20,35 a15,15 0 1,0 0.1,0"/>
+      <path class="bd-link right" d="M100,35 a15,15 0 1,0 0.1,0"/>
+      <g class="bd-flash">
+        <circle cx="60" cy="35" r="3" fill="var(--volt)"/>
+        <path d="M60,20 L63,32 L72,32 L64,38 L67,50 L60,42 L53,50 L56,38 L48,32 L57,32 Z" fill="var(--flash)" transform="scale(0.5) translate(60,35)"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- EVENTS -->
+  <section id="events" class="events section-pad">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">On The Calendar</div>
+        <h2 class="display" style="margin-top:1rem;">Where to find us.</h2>
+      </div>
+      <div class="event-list reveal d1" id="eventList"></div>
+    </div>
+  </section>
+
+  <!-- REELS -->
+  <section id="reels" class="reels-section section-pad">
+    <div class="wrap">
+      <div class="ig-row reveal">
+        <div>
+          <div class="eyebrow">From The Gram</div>
+          <h2 class="display" style="margin-top:1rem;">See it happen live.</h2>
+        </div>
+        <a class="ig-follow" href="https://www.instagram.com/bondedandco" target="_blank" rel="noopener">
+          @bondedandco on Instagram →
+        </a>
+      </div>
+      <div class="reel-grid reveal d1">
+        <div class="reel-card" data-video="video/reel-1.mp4">
+          <img src="images/reel-1-poster.jpg" alt="Bonded & Co event reel">
+          <video muted loop playsinline preload="none"><source src="video/reel-1.mp4" type="video/mp4"></video>
+          <div class="reel-play"><div class="reel-play-btn"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M8 5v14l11-7z"/></svg></div></div>
+        </div>
+        <div class="reel-card" data-video="video/reel-2.mp4">
+          <img src="images/reel-2-poster.jpg" alt="Bonded & Co event reel">
+          <video muted loop playsinline preload="none"><source src="video/reel-2.mp4" type="video/mp4"></video>
+          <div class="reel-play"><div class="reel-play-btn"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M8 5v14l11-7z"/></svg></div></div>
+        </div>
+        <div class="reel-card" data-video="video/reel-3.mp4">
+          <img src="images/reel-3-poster.jpg" alt="Bonded & Co event reel">
+          <video muted loop playsinline preload="none"><source src="video/reel-3.mp4" type="video/mp4"></video>
+          <div class="reel-play"><div class="reel-play-btn"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M8 5v14l11-7z"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTY CTA -->
+  <section class="party-band">
+    <div class="eyebrow">Host A Party</div>
+    <h2>Get 5+ friends together. We'll come to you.</h2>
+    <div class="reward-chip">✦ Hostess Reward: Free Bracelet + Charm</div>
+    <p>Birthdays, bachelorettes, girls' nights, corporate events — book a party of 5 or more and Bonded &amp; Co. brings the whole pop-up experience to your door.</p>
+    <div class="btn-row" style="justify-content:center;">
+      <a href="mailto:bondedandcojewelry@gmail.com" class="btn btn-flash">Email to Book</a>
+      <a href="https://www.instagram.com/bondedandco" target="_blank" rel="noopener" class="btn btn-outline">DM on Instagram</a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="book" class="section-pad">
+    <div class="wrap contact">
+      <div class="reveal">
+        <div class="eyebrow">Get Bonded</div>
+        <h2 class="display" style="margin:1rem 0 1.4rem;">Ready when you are.</h2>
+        <p style="color:var(--ink-soft); max-width:46ch; font-size:1.02rem;">Book a party, ask about an upcoming pop-up, or just say hi — we're easiest to reach on Instagram or by email.</p>
+      </div>
+      <div class="contact-card reveal d1">
+        <h3>Book &amp; Connect</h3>
+        <div class="contact-row">
+          <div class="ic">✦</div>
+          <a href="mailto:bondedandcojewelry@gmail.com">bondedandcojewelry@gmail.com</a>
+        </div>
+        <div class="contact-row">
+          <div class="ic">✦</div>
+          <a href="https://www.instagram.com/bondedandco" target="_blank" rel="noopener">@bondedandco</a>
+        </div>
+        <div class="contact-row">
+          <div class="ic">✦</div>
+          <span style="font-weight:700; font-size:1.02rem;">Windsor &amp; Essex County, ON</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--holo);display:inline-block;"></span>Bonded&amp;Co.</div>
+      <p>Permanent jewelry, welded on for good. Serving Windsor and Essex County, one pop-up at a time.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#about">About</a>
+      <a href="#how">How It Works</a>
+      <a href="#events">Events</a>
+      <a href="#reels">Reels</a>
+      <a href="#book">Book a Party</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Bonded &amp; Co. All rights reserved.</span>
+    <span>Windsor &amp; Essex County, Ontario</span>
+  </div>
+</footer>
+
+<script>
+  // Header + mobile nav
+  const navToggle = document.getElementById('navToggle');
+  const navMenu = document.getElementById('navMenu');
+  navToggle.addEventListener('click', () => {
+    const open = navMenu.classList.toggle('open');
+    navToggle.classList.toggle('open', open);
+    navToggle.setAttribute('aria-expanded', open);
+  });
+  navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navMenu.classList.remove('open');
+    navToggle.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', false);
+  }));
+
+  // ===== Events data — add new events here =====
+  const eventsData = [
+    {
+      date: "Coming Up",
+      title: "Pop-Up Party Bookings Open",
+      desc: "Booking permanent jewelry pop-ups across Windsor & Essex County — birthdays, bachelorettes, girls' nights and more. Slide into our DMs or email to lock in a date.",
+      loc: "Windsor & Essex County",
+      img: "images/party-friends-fistbump.jpg"
+    },
+    {
+      date: "Recent",
+      title: "Private Friend Group Party",
+      desc: "A group of 10+ friends got bonded together in one afternoon — bracelets, anklets, and a whole lot of fist bumps.",
+      loc: "Private Residence, Windsor",
+      img: "images/reel-2-poster.jpg"
+    },
+    {
+      date: "Recent",
+      title: "Pop-Up Shop Appearance",
+      desc: "Bonded & Co. set up shop for a day of walk-in welds, charm add-ons, and new friend bracelets.",
+      loc: "Local Pop-Up Market",
+      img: "images/reel-3-poster.jpg"
+    }
+  ];
+  const eventList = document.getElementById('eventList');
+  eventsData.forEach(ev => {
+    const card = document.createElement('div');
+    card.className = 'event-card';
+    card.innerHTML = `
+      <div class="event-img"><img src="${ev.img}" alt="${ev.title}"></div>
+      <div>
+        <div class="event-date">${ev.date}</div>
+        <h3>${ev.title}</h3>
+        <p>${ev.desc}</p>
+        <div class="event-loc">📍 ${ev.loc}</div>
+      </div>
+      <div><a href="#book" class="btn btn-outline" style="padding:11px 20px; font-size:0.78rem;">Inquire</a></div>
+    `;
+    eventList.appendChild(card);
+  });
+
+  // Reel play-on-click
+  document.querySelectorAll('.reel-card').forEach(card => {
+    const video = card.querySelector('video');
+    card.addEventListener('click', () => {
+      if (video.paused) {
+        video.play();
+        card.classList.add('playing');
+      } else {
+        video.pause();
+        card.classList.remove('playing');
+      }
+    });
+  });
+
+  // Reveal + bond-divider on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.18});
+  document.querySelectorAll('.reveal, .bond-divider').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
