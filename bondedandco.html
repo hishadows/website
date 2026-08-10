@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
   :root{
     --pearl:#FFFCF6;
@@ -196,6 +197,14 @@
     box-shadow:0 10px 30px rgba(0,0,0,0.25);
   }
   @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  .chain-3d{
+    position:absolute; top:-34px; right:-34px;
+    width:150px; height:150px;
+    z-index:2; pointer-events:none;
+  }
+  .chain-3d canvas{width:100% !important; height:100% !important;}
+  @media (max-width:900px){.chain-3d{width:110px; height:110px; top:-20px; right:-14px;}}
+  @media (max-width:480px){.chain-3d{display:none;}}
   @media (max-width:900px){
     .hero-grid{grid-template-columns:1fr;}
     .hero-visual{margin-top:2.4rem; max-width:440px; margin-left:auto; margin-right:auto;}
@@ -277,12 +286,14 @@
   .how{background:var(--ink); color:var(--pearl);}
   .how-grid{
     display:grid; grid-template-columns:repeat(4,1fr); gap:1.6rem; margin-top:3rem;
+    perspective:1200px;
   }
   .how-step{
     background:rgba(255,252,246,0.05);
     border:1px solid rgba(255,252,246,0.12);
     border-radius:20px;
     padding:2rem 1.6rem;
+    transform-style:preserve-3d;
     transition:transform .4s var(--ease), background .4s var(--ease), border-color .4s var(--ease);
   }
   .how-step:hover{transform:translateY(-8px); background:rgba(255,252,246,0.09); border-color:var(--flash);}
@@ -299,10 +310,13 @@
   /* ===== Jewelry gallery ===== */
   .jewel-grid{
     display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem;
+    perspective:1200px;
   }
   .jewel-card{
     position:relative; overflow:hidden; border-radius:20px; aspect-ratio:4/5;
     background:var(--ink);
+    transform-style:preserve-3d;
+    transition:transform .4s var(--ease);
   }
   .jewel-card img{width:100%; height:100%; object-fit:cover; transition:transform .8s var(--ease);}
   .jewel-card:hover img{transform:scale(1.08);}
@@ -494,6 +508,7 @@
       </div>
       <div class="hero-visual">
         <div class="hero-badge">FOREVER<br>WELDED<br>ON</div>
+        <div class="chain-3d" id="chain3d" aria-hidden="true"></div>
         <img class="hv-a" src="images/party-friends-fistbump.jpg" alt="Friends showing off their new permanent jewelry bracelets at a Bonded & Co pop-up">
         <img class="hv-b" src="images/jewelry-birthstone-bracelets.jpg" alt="Birthstone charm bracelets by Bonded & Co">
         <img class="hv-c" src="images/jewelry-hand-chain.jpg" alt="Delicate hand chain jewelry by Bonded & Co">
@@ -632,17 +647,17 @@
       <div class="reel-grid reveal d1">
         <div class="reel-card" data-video="video/reel-1.mp4">
           <img src="images/reel-1-poster.jpg" alt="Bonded & Co event reel">
-          <video muted loop playsinline preload="none"><source src="video/reel-1.mp4" type="video/mp4"></video>
+          <video loop playsinline preload="none"><source src="video/reel-1.mp4" type="video/mp4"></video>
           <div class="reel-play"><div class="reel-play-btn"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M8 5v14l11-7z"/></svg></div></div>
         </div>
         <div class="reel-card" data-video="video/reel-2.mp4">
           <img src="images/reel-2-poster.jpg" alt="Bonded & Co event reel">
-          <video muted loop playsinline preload="none"><source src="video/reel-2.mp4" type="video/mp4"></video>
+          <video loop playsinline preload="none"><source src="video/reel-2.mp4" type="video/mp4"></video>
           <div class="reel-play"><div class="reel-play-btn"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M8 5v14l11-7z"/></svg></div></div>
         </div>
         <div class="reel-card" data-video="video/reel-3.mp4">
           <img src="images/reel-3-poster.jpg" alt="Bonded & Co event reel">
-          <video muted loop playsinline preload="none"><source src="video/reel-3.mp4" type="video/mp4"></video>
+          <video loop playsinline preload="none"><source src="video/reel-3.mp4" type="video/mp4"></video>
           <div class="reel-play"><div class="reel-play-btn"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M8 5v14l11-7z"/></svg></div></div>
         </div>
       </div>
@@ -755,7 +770,7 @@
       title: "Windsor's Farmers' Market",
       desc: "Find us set up live at Windsor's Farmers' Market — walk-in welds, charm add-ons, and new pieces made on the spot.",
       loc: "Windsor Farmers' Market",
-      img: "images/event-market.svg"
+      img: "images/event-market.jpg"
     },
     {
       date: "Coming Up",
@@ -789,12 +804,71 @@
     eventList.appendChild(card);
   });
 
-  // Reel play-on-click
-  document.querySelectorAll('.reel-card').forEach(card => {
+  // 3D chain-link accent — two interlocked torus rings, slowly rotating
+  (function initChain3D() {
+    const el = document.getElementById('chain3d');
+    if (!el || !window.THREE || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const size = el.clientWidth || 150;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    camera.position.set(0, 0, 6);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(size, size);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    el.appendChild(renderer.domElement);
+
+    const light1 = new THREE.DirectionalLight(0xffffff, 1.1);
+    light1.position.set(3, 4, 5);
+    scene.add(light1);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+
+    const matA = new THREE.MeshStandardMaterial({ color: 0x17151c, metalness: 0.6, roughness: 0.3 });
+    const matB = new THREE.MeshStandardMaterial({ color: 0xff3e8e, metalness: 0.5, roughness: 0.35 });
+
+    const ringGeo = new THREE.TorusGeometry(1.1, 0.22, 24, 64);
+    const ringA = new THREE.Mesh(ringGeo, matA);
+    const ringB = new THREE.Mesh(ringGeo, matB);
+    ringA.rotation.x = Math.PI / 2.4;
+    ringB.rotation.y = Math.PI / 2.6;
+    ringB.position.x = 0.95;
+    const group = new THREE.Group();
+    group.add(ringA, ringB);
+    scene.add(group);
+
+    let raf;
+    function animate() {
+      raf = requestAnimationFrame(animate);
+      group.rotation.y += 0.008;
+      group.rotation.x += 0.003;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    const io2 = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting && raf) { cancelAnimationFrame(raf); raf = null; }
+        else if (entry.isIntersecting && !raf) { animate(); }
+      });
+    });
+    io2.observe(el);
+  })();
+
+  // Reel play-on-click — audio on, and pause any other reel that's playing
+  const allReelCards = document.querySelectorAll('.reel-card');
+  allReelCards.forEach(card => {
     const video = card.querySelector('video');
+    video.muted = false;
     card.addEventListener('click', () => {
       if (video.paused) {
-        video.play();
+        allReelCards.forEach(other => {
+          if (other !== card) {
+            const otherVideo = other.querySelector('video');
+            otherVideo.pause();
+            otherVideo.currentTime = 0;
+            other.classList.remove('playing');
+          }
+        });
+        video.play().catch(() => {});
         card.classList.add('playing');
       } else {
         video.pause();
@@ -802,6 +876,19 @@
       }
     });
   });
+
+  // 3D tilt on jewelry cards + process steps (desktop pointer only)
+  if (window.matchMedia('(pointer:fine)').matches) {
+    document.querySelectorAll('.jewel-card, .how-step').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = `rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateY(-4px)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+  }
 
   // Contact form — AJAX submit via FormSubmit so the page doesn't reload
   const contactForm = document.getElementById('contactForm');
