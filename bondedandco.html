@@ -196,6 +196,7 @@
     box-shadow:0 10px 30px rgba(0,0,0,0.25);
   }
   @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
   @media (max-width:900px){
     .hero-grid{grid-template-columns:1fr;}
     .hero-visual{margin-top:2.4rem; max-width:440px; margin-left:auto; margin-right:auto;}
@@ -206,48 +207,6 @@
     .hero-visual{gap:10px;}
   }
 
-  /* ===== Scroll-driven chain — runs down the right side of the entire page ===== */
-  .scroll-chain{
-    position:fixed;
-    right:22px; top:0;
-    width:32px;
-    height:100vh;
-    z-index:50;
-    pointer-events:none;
-    display:flex; flex-direction:column; align-items:center;
-    overflow:visible;
-  }
-  .scroll-chain svg{
-    position:absolute; top:0; left:0;
-    width:32px; height:100%;
-    overflow:visible;
-  }
-  @media (max-width:900px){.scroll-chain{right:10px; width:22px;}}
-  @media (max-width:600px){.scroll-chain{display:none;}}
-
-  .chain-link-path{
-    fill:none;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-  }
-  .chain-link-bg{stroke:rgba(255,252,246,0.1); stroke-width:2;}
-  .chain-link-fill{
-    stroke:url(#chainGrad);
-    stroke-width:2;
-    stroke-dasharray:56;
-    stroke-dashoffset:56;
-    transition:stroke-dashoffset 0.08s linear;
-  }
-  .chain-spark{
-    display:none;
-    filter:drop-shadow(0 0 4px rgba(255,62,142,0.9));
-  }
-  .chain-spark circle{fill:var(--flash);}
-
-  @keyframes sparkpulse{
-    0%,100%{opacity:1; r:2.5;}
-    50%{opacity:0.6; r:3.5;}
-  }
   .marquee{
     background:var(--ink); color:var(--pearl);
     overflow:hidden; white-space:nowrap; padding:16px 0;
@@ -361,7 +320,73 @@
   @media (max-width:900px){.jewel-grid{grid-template-columns:1fr 1fr;}}
   @media (max-width:560px){.jewel-grid{grid-template-columns:1fr;}}
 
-  /* ===== Events ===== */
+  /* ===== Pricing accordion ===== */
+  .pricing-section{background:var(--ink); color:var(--pearl);}
+  .pricing-intro{max-width:52ch; color:rgba(255,252,246,0.7); font-size:1rem; margin-top:1rem;}
+  .pricing-accordion{margin-top:2.8rem; display:flex; flex-direction:column; gap:2px;}
+  .pricing-item{
+    border-radius:12px;
+    overflow:hidden;
+    background:rgba(255,252,246,0.04);
+    border:1px solid rgba(255,252,246,0.1);
+    transition:border-color .3s var(--ease);
+  }
+  .pricing-item.open{border-color:var(--flash);}
+  .pricing-trigger{
+    width:100%; display:flex; align-items:center; justify-content:space-between;
+    padding:1.3rem 1.6rem; background:none; border:none; cursor:pointer;
+    color:var(--pearl); font-family:var(--display); text-align:left;
+  }
+  .pricing-trigger-left{display:flex; align-items:center; gap:1rem;}
+  .pricing-cat{font-size:1.25rem; font-weight:700; letter-spacing:.04em;}
+  .pricing-range{
+    font-family:var(--body); font-size:0.78rem; font-weight:600;
+    letter-spacing:.06em; text-transform:uppercase;
+    color:var(--flash); opacity:.85;
+  }
+  .pricing-arrow{
+    width:30px; height:30px; border-radius:50%;
+    border:1px solid rgba(255,252,246,0.2);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    transition:transform .4s var(--ease), border-color .3s ease, background .3s ease;
+    color:var(--pearl);
+    font-size:1rem;
+  }
+  .pricing-item.open .pricing-arrow{
+    transform:rotate(45deg);
+    background:var(--flash); border-color:var(--flash);
+  }
+  .pricing-body{
+    max-height:0; overflow:hidden;
+    transition:max-height .5s var(--ease), padding .5s var(--ease);
+    padding:0 1.6rem;
+  }
+  .pricing-item.open .pricing-body{
+    max-height:400px;
+    padding:0 1.6rem 1.4rem;
+  }
+  .pricing-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:.55rem 0;
+    border-bottom:1px solid rgba(255,252,246,0.07);
+    font-size:0.92rem;
+  }
+  .pricing-row:last-child{border-bottom:none;}
+  .pricing-row .label{color:rgba(255,252,246,0.8);}
+  .pricing-row .price{
+    font-family:var(--display); font-weight:700; font-size:1.1rem;
+    color:var(--volt);
+  }
+  .pricing-note{
+    font-size:0.78rem; color:rgba(255,252,246,0.4); margin-top:1rem;
+    font-style:italic;
+  }
+  @media (max-width:640px){
+    .pricing-trigger{padding:1.1rem 1.2rem;}
+    .pricing-cat{font-size:1.1rem;}
+    .pricing-item.open .pricing-body{padding:0 1.2rem 1.2rem;}
+  }
   .events{background:var(--pearl-dim);}
   .event-list{display:flex; flex-direction:column; gap:1.4rem; margin-top:2.6rem;}
   .event-card{
@@ -499,33 +524,114 @@
   .footer-links a{font-size:0.86rem; font-weight:700; color:rgba(255,252,246,0.85);}
   .footer-bottom{display:flex; justify-content:space-between; padding-top:1.6rem; font-size:0.76rem; flex-wrap:wrap; gap:1rem;}
 
-  /* ===== Global mobile safety ===== */
-  @media (max-width:540px){
-    .section-pad{padding:56px 0;}
-    h2.display{font-size:clamp(1.9rem,7vw,2.6rem);}
-    .btn{padding:14px 22px; font-size:0.78rem;}
-    .wrap{padding-left:5.5vw; padding-right:5.5vw;}
+  /* ===== MOBILE RESPONSIVE — complete pass ===== */
+
+  /* Tablet (≤900px) */
+  @media (max-width:900px){
+    .about{grid-template-columns:1fr;}
+    .about-visual img{aspect-ratio:3/2; object-position:top center;}
+    .about-sticker{bottom:-14px; right:10px;}
+    .story{grid-template-columns:1fr;}
+    .location{grid-template-columns:1fr;}
+    .contact{grid-template-columns:1fr;}
+    .footer-top{grid-template-columns:1fr 1fr; row-gap:2.2rem;}
+    .jewel-grid{grid-template-columns:1fr 1fr;}
+    .how-grid{grid-template-columns:1fr 1fr;}
+  }
+
+  /* Mobile (≤640px) */
+  @media (max-width:640px){
+    .section-pad{padding:52px 0;}
+    .wrap{padding-left:5vw; padding-right:5vw;}
+    h2.display{font-size:clamp(1.8rem,8vw,2.6rem);}
+
+    /* Header */
+    header{padding:14px 5vw;}
+    .logo{font-size:1.1rem;}
+
+    /* Hero */
+    .hero{padding-top:70px;}
+    .hero-grid{grid-template-columns:1fr; gap:2.4rem;}
+    .hero h1{font-size:clamp(2.2rem,9vw,3.2rem);}
+    .hero-copy p{font-size:0.95rem;}
+    .hero-visual{max-width:100%; margin:0;}
+    .hero-badge{width:80px; height:80px; font-size:0.6rem; top:-10px; left:-10px;}
+
+    /* About section */
+    .about{grid-template-columns:1fr; gap:2rem;}
+    .about-visual{margin-bottom:2.4rem;}
+    .about-visual img{aspect-ratio:4/3;}
+    .about-sticker{font-size:1.1rem; padding:12px 18px; bottom:-12px; right:8px;}
+    .stat-strip{gap:1.6rem;}
+    .stat b{font-size:1.8rem;}
+
+    /* How it works */
+    .how-grid{grid-template-columns:1fr; gap:1rem;}
+    .how-step{padding:1.4rem 1.2rem;}
+
+    /* Jewelry */
+    .jewel-grid{grid-template-columns:1fr; gap:1rem;}
+    .jewel-card{aspect-ratio:3/2;}
+
+    /* Events */
+    .event-card{grid-template-columns:1fr; gap:1rem; padding:1rem;}
+    .event-img{width:100%; height:160px;}
+    .event-card > div:last-child{display:none;}
+
+    /* Reels */
+    .ig-row{flex-direction:column; align-items:flex-start; gap:0.8rem; margin-bottom:1.6rem;}
+    .reel-grid{
+      grid-template-columns:1fr;
+      gap:1rem;
+    }
+    .reel-card{
+      aspect-ratio:9/14;
+      border-radius:16px;
+      max-width:340px;
+      margin:0 auto;
+    }
+    .reel-play-btn{width:64px; height:64px;}
+    .reel-play-btn svg{width:24px; height:24px; margin-left:4px;}
+
+    /* Party band */
+    .party-band h2{font-size:clamp(1.8rem,7vw,2.6rem);}
+    .party-band p{font-size:0.9rem;}
+    .btn-row{flex-direction:column; align-items:stretch;}
+    .btn-row .btn{justify-content:center; width:100%;}
+    .reward-chip{font-size:0.75rem; padding:8px 16px;}
+
+    /* Contact */
+    .contact{grid-template-columns:1fr; gap:2rem;}
+    .contact-card{padding:1.6rem;}
+    .contact-row a, .contact-row span{font-size:0.9rem; word-break:break-all;}
+
+    /* Footer */
+    .footer-top{grid-template-columns:1fr; gap:1.6rem;}
+    .footer-links{gap:1.4rem;}
+    footer{padding:44px 5vw 22px;}
+    .footer-bottom{flex-direction:column; gap:0.4rem; font-size:0.7rem;}
+
+    /* Buttons */
+    .btn{padding:14px 24px; font-size:0.8rem;}
+    .btn.nav-cta{padding:10px 18px;}
+
+    /* Form */
+    .contact-form .btn{width:100%; justify-content:center;}
+  }
+
+  /* Small mobile (≤420px) */
+  @media (max-width:420px){
+    .hero h1{font-size:clamp(2rem,10vw,2.8rem);}
+    .marquee span{font-size:0.9rem; padding:0 1.2rem;}
+    .about-badges{gap:0.5rem;}
+    .badge{padding:7px 13px; font-size:0.76rem;}
+    .reel-card{max-width:100%;}
   }
 </style>
 </head>
 <body>
 
-<!-- Scroll-driven chain — fixed to right edge of page -->
-<div class="scroll-chain" id="scrollChain" aria-hidden="true">
-  <svg id="chainSvg" viewBox="0 0 32 800" preserveAspectRatio="none">
-    <defs>
-      <linearGradient id="chainGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#FF3E8E"/>
-        <stop offset="50%" stop-color="#CBFF4D"/>
-        <stop offset="100%" stop-color="#4DE1FF"/>
-      </linearGradient>
-    </defs>
-    <g id="chainLinks"></g>
-    <g class="chain-spark" id="chainSpark">
-      <circle cx="16" cy="0" r="3" style="animation:sparkpulse 0.6s infinite;"/>
-    </g>
-  </svg>
-</div>
+
 
 <header id="siteHeader">
   <a href="#top" class="logo"><span class="dot"></span>Bonded&amp;Co.</a>
@@ -534,6 +640,7 @@
     <a href="#about">Our Story</a>
     <a href="#how">How It Works</a>
     <a href="#jewelry">Jewelry</a>
+    <a href="#pricing">Pricing</a>
     <a href="#events">Events</a>
     <a href="#reels">Reels</a>
     <a href="#contact">Contact</a>
@@ -658,16 +765,121 @@
   </section>
 
   <div class="bond-divider" aria-hidden="true">
-    <div class="bond-line"></div>
+    <div class="bond-line" style="background:rgba(255,252,246,0.1);"></div>
     <svg viewBox="0 0 120 70">
-      <path class="bd-link left" d="M20,35 a15,15 0 1,0 0.1,0"/>
-      <path class="bd-link right" d="M100,35 a15,15 0 1,0 0.1,0"/>
+      <path class="bd-link left" d="M20,35 a15,15 0 1,0 0.1,0" stroke="rgba(255,252,246,0.3)"/>
+      <path class="bd-link right" d="M100,35 a15,15 0 1,0 0.1,0" stroke="rgba(255,252,246,0.3)"/>
       <g class="bd-flash">
         <circle cx="60" cy="35" r="3" fill="var(--volt)"/>
         <path d="M60,20 L63,32 L72,32 L64,38 L67,50 L60,42 L53,50 L56,38 L48,32 L57,32 Z" fill="var(--flash)" transform="scale(0.5) translate(60,35)"/>
       </g>
     </svg>
   </div>
+
+  <!-- PRICING -->
+  <section id="pricing" class="pricing-section section-pad">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow" style="color:var(--volt);">Pricing</div>
+        <h2 class="display" style="margin-top:1rem; color:var(--pearl);">What does it cost?</h2>
+        <p class="pricing-intro">Tap any category to see our current prices — all pieces welded on by hand, on the spot.</p>
+      </div>
+      <div class="pricing-accordion reveal d1">
+
+        <div class="pricing-item">
+          <button class="pricing-trigger" aria-expanded="false">
+            <div class="pricing-trigger-left">
+              <span class="pricing-cat">Bracelets</span>
+              <span class="pricing-range">from $50</span>
+            </div>
+            <span class="pricing-arrow" aria-hidden="true">+</span>
+          </button>
+          <div class="pricing-body" role="region">
+            <div class="pricing-row"><span class="label">Gold Filled — light weight</span><span class="price">$50</span></div>
+            <div class="pricing-row"><span class="label">Gold Filled — heavy weight</span><span class="price">$65</span></div>
+            <div class="pricing-row"><span class="label">Sterling Silver — light weight</span><span class="price">$50</span></div>
+            <div class="pricing-row"><span class="label">Sterling Silver — heavy weight</span><span class="price">$65</span></div>
+          </div>
+        </div>
+
+        <div class="pricing-item">
+          <button class="pricing-trigger" aria-expanded="false">
+            <div class="pricing-trigger-left">
+              <span class="pricing-cat">Necklaces</span>
+              <span class="pricing-range">from $75</span>
+            </div>
+            <span class="pricing-arrow" aria-hidden="true">+</span>
+          </button>
+          <div class="pricing-body" role="region">
+            <div class="pricing-row"><span class="label">Gold Filled — light weight</span><span class="price">$85</span></div>
+            <div class="pricing-row"><span class="label">Gold Filled — heavy weight</span><span class="price">$100</span></div>
+            <div class="pricing-row"><span class="label">Sterling Silver — light weight</span><span class="price">$75</span></div>
+            <div class="pricing-row"><span class="label">Sterling Silver — heavy weight</span><span class="price">$95</span></div>
+          </div>
+        </div>
+
+        <div class="pricing-item">
+          <button class="pricing-trigger" aria-expanded="false">
+            <div class="pricing-trigger-left">
+              <span class="pricing-cat">Anklets</span>
+              <span class="pricing-range">from $60</span>
+            </div>
+            <span class="pricing-arrow" aria-hidden="true">+</span>
+          </button>
+          <div class="pricing-body" role="region">
+            <div class="pricing-row"><span class="label">Gold Filled — light weight</span><span class="price">$70</span></div>
+            <div class="pricing-row"><span class="label">Gold Filled — heavy weight</span><span class="price">$85</span></div>
+            <div class="pricing-row"><span class="label">Sterling Silver — light weight</span><span class="price">$60</span></div>
+            <div class="pricing-row"><span class="label">Sterling Silver — heavy weight</span><span class="price">$75</span></div>
+          </div>
+        </div>
+
+        <div class="pricing-item">
+          <button class="pricing-trigger" aria-expanded="false">
+            <div class="pricing-trigger-left">
+              <span class="pricing-cat">Rings</span>
+              <span class="pricing-range">from $30</span>
+            </div>
+            <span class="pricing-arrow" aria-hidden="true">+</span>
+          </button>
+          <div class="pricing-body" role="region">
+            <div class="pricing-row"><span class="label">Gold Filled</span><span class="price">$30</span></div>
+            <div class="pricing-row"><span class="label">Sterling Silver</span><span class="price">$30</span></div>
+          </div>
+        </div>
+
+        <div class="pricing-item">
+          <button class="pricing-trigger" aria-expanded="false">
+            <div class="pricing-trigger-left">
+              <span class="pricing-cat">Charms &amp; Connectors</span>
+              <span class="pricing-range">from $20</span>
+            </div>
+            <span class="pricing-arrow" aria-hidden="true">+</span>
+          </button>
+          <div class="pricing-body" role="region">
+            <div class="pricing-row"><span class="label">Gold Filled Charm</span><span class="price">$20</span></div>
+            <div class="pricing-row"><span class="label">Sterling Silver Charm</span><span class="price">$20</span></div>
+            <div class="pricing-row"><span class="label">Connectors</span><span class="price">$25</span></div>
+          </div>
+        </div>
+
+        <div class="pricing-item">
+          <button class="pricing-trigger" aria-expanded="false">
+            <div class="pricing-trigger-left">
+              <span class="pricing-cat">Kids 12 &amp; Under</span>
+              <span class="pricing-range">$40</span>
+            </div>
+            <span class="pricing-arrow" aria-hidden="true">+</span>
+          </button>
+          <div class="pricing-body" role="region">
+            <div class="pricing-row"><span class="label">Light weight Bracelet</span><span class="price">$40</span></div>
+          </div>
+        </div>
+
+      </div>
+      <p class="pricing-note reveal d2">All prices in CAD. Charms and connectors can be added to any piece.</p>
+    </div>
+  </section>
 
   <!-- EVENTS -->
   <section id="events" class="events section-pad">
@@ -782,6 +994,7 @@
     <div class="footer-links">
       <a href="#about">Our Story</a>
       <a href="#how">How It Works</a>
+      <a href="#pricing">Pricing</a>
       <a href="#events">Events</a>
       <a href="#reels">Reels</a>
       <a href="#contact">Contact</a>
@@ -852,7 +1065,7 @@
     eventList.appendChild(card);
   });
 
-  // Reel play-on-click — audio on, and pause any other reel that's playing
+  // Reel play-on-click — audio on, pause others, fullscreen on mobile
   const allReelCards = document.querySelectorAll('.reel-card');
   allReelCards.forEach(card => {
     const video = card.querySelector('video');
@@ -867,12 +1080,21 @@
             other.classList.remove('playing');
           }
         });
-        video.play().catch(() => {});
+        video.play().catch(() => { video.muted = true; video.play(); });
         card.classList.add('playing');
+        // On mobile, go fullscreen for a proper viewing experience
+        if (window.innerWidth < 640) {
+          if (video.requestFullscreen) video.requestFullscreen();
+          else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+          else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+        }
       } else {
         video.pause();
         card.classList.remove('playing');
       }
+    });
+    video.addEventListener('webkitendfullscreen', () => {
+      video.pause(); card.classList.remove('playing');
     });
   });
 
@@ -920,101 +1142,24 @@
     }
   });
 
-  // ===== Scroll-driven chain (right edge of page) =====
-  (function initScrollChain() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (window.innerWidth < 600) return;
 
-    const svg = document.getElementById('chainSvg');
-    const linksGroup = document.getElementById('chainLinks');
-    const spark = document.getElementById('chainSpark');
-    const sparkCircle = spark.querySelector('circle');
-    if (!svg || !linksGroup) return;
-
-    // How many chain-links to generate (enough to cover any page height)
-    const LINK_H = 28; // px per link in viewBox units
-    const LINK_COUNT = 80;
-    const LINK_W = 14;
-    const CX = 16;
-
-    // Build link paths: each link = a rounded rect path alternating horizontal/vertical
-    function makeLinkPath(i) {
-      const y = i * LINK_H + 2;
-      const isH = i % 2 === 0; // alternate orientation
-      const rx = isH ? LINK_W/2 : 4;
-      const ry = isH ? 4 : LINK_W/2;
-      const w = isH ? LINK_W : 8;
-      const h = isH ? 8 : LINK_W;
-      const x = CX - w/2;
-      return `M${x+rx},${y} h${w-2*rx} a${rx},${ry} 0 0 1 ${rx},${ry} v${h-2*ry} a${rx},${ry} 0 0 1 ${-rx},${ry} h${-(w-2*rx)} a${rx},${ry} 0 0 1 ${-rx},${-ry} v${-(h-2*ry)} a${rx},${ry} 0 0 1 ${rx},${-ry} z`;
-    }
-
-    // Perimeter of each link (approximate for stroke-dasharray)
-    const PERIM = 2*(LINK_W + 8) - 8 + 2*Math.PI*4; // ~56px
-
-    for (let i = 0; i < LINK_COUNT; i++) {
-      const bg = document.createElementNS('http://www.w3.org/2000/svg','path');
-      bg.setAttribute('d', makeLinkPath(i));
-      bg.setAttribute('class','chain-link-path chain-link-bg');
-      linksGroup.appendChild(bg);
-
-      const fill = document.createElementNS('http://www.w3.org/2000/svg','path');
-      fill.setAttribute('d', makeLinkPath(i));
-      fill.setAttribute('class','chain-link-path chain-link-fill');
-      fill.setAttribute('stroke-dasharray', PERIM);
-      fill.setAttribute('stroke-dashoffset', PERIM);
-      linksGroup.appendChild(fill);
-    }
-
-    // Sync viewBox height to actual page height
-    function resizeChain() {
-      const totalH = Math.max(document.body.scrollHeight, window.innerHeight);
-      svg.setAttribute('viewBox', `0 0 32 ${totalH}`);
-      svg.setAttribute('height', totalH);
-    }
-    resizeChain();
-    window.addEventListener('resize', resizeChain, {passive:true});
-
-    // Update on scroll
-    const fills = linksGroup.querySelectorAll('.chain-link-fill');
-    let ticking = false;
-
-    function updateChain() {
-      ticking = false;
-      const scrolled = window.scrollY;
-      const maxScroll = Math.max(1, document.body.scrollHeight - window.innerHeight);
-      const progress = Math.min(1, scrolled / maxScroll);
-      const totalH = document.body.scrollHeight;
-      const filledPx = progress * totalH;
-
-      fills.forEach((el, i) => {
-        const linkTop = i * LINK_H;
-        if (filledPx >= linkTop + LINK_H) {
-          el.setAttribute('stroke-dashoffset', 0);
-        } else if (filledPx > linkTop) {
-          const frac = (filledPx - linkTop) / LINK_H;
-          el.setAttribute('stroke-dashoffset', PERIM * (1 - frac));
-        } else {
-          el.setAttribute('stroke-dashoffset', PERIM);
-        }
+  // Pricing accordion
+  document.querySelectorAll('.pricing-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const item = trigger.closest('.pricing-item');
+      const isOpen = item.classList.contains('open');
+      // close all
+      document.querySelectorAll('.pricing-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.pricing-trigger').setAttribute('aria-expanded', 'false');
       });
-
-      // Move spark to front edge of the fill
-      const sparkY = Math.min(filledPx, totalH - 4);
-      sparkCircle.setAttribute('cy', sparkY);
-      if (progress > 0.005 && progress < 0.995) {
-        spark.style.display = 'block';
-      } else {
-        spark.style.display = 'none';
+      // open this one if it wasn't already open
+      if (!isOpen) {
+        item.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
       }
-    }
-
-    window.addEventListener('scroll', () => {
-      if (!ticking) { requestAnimationFrame(updateChain); ticking = true; }
-    }, {passive:true});
-
-    updateChain();
-  })();
+    });
+  });
 
   // Reveal + bond-divider on scroll
   const io = new IntersectionObserver((entries) => {
