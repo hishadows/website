@@ -488,7 +488,7 @@
   <!-- HERO -->
   <section class="hero" id="hero">
     <div class="hero__base" aria-hidden="true"></div>
-    <video id="film" autoplay muted loop playsinline poster="hero-poster.jpg" aria-hidden="true">
+    <video id="film" autoplay muted loop playsinline preload="none" poster="hero-poster.jpg" aria-hidden="true">
       <source src="video/hero-water.mp4" type="video/mp4">
     </video>
     <div class="hero__wash" aria-hidden="true"></div>
@@ -653,6 +653,7 @@ function initStoryWater() {
 
   let gl; try { gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl'); } catch(e) {}
   if (!gl) return;
+  storyWaterRunning = true;
 
   const VERT = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}';
   const FRAG = `
@@ -706,24 +707,29 @@ function initStoryWater() {
   const rip=new Float32Array(36); for(let i=0;i<12;i++) rip[i*3+2]=-100;
   let head=0; const t0=performance.now(); const nowS=()=>(performance.now()-t0)/1000;
   const addRipple=(x,y)=>{rip[head*3]=x;rip[head*3+1]=y;rip[head*3+2]=nowS();head=(head+1)%12;};
-  function resize(){const dpr=Math.min(devicePixelRatio||1,2);
+  function resize(){const dpr=Math.min(devicePixelRatio||1,1.5);
     canvas.width=Math.floor(canvas.clientWidth*dpr); canvas.height=Math.floor(canvas.clientHeight*dpr);
     gl.viewport(0,0,canvas.width,canvas.height);}
   window.addEventListener('resize',resize); resize();
   let last=0;
   const toUV=(cx,cy)=>{const r=canvas.getBoundingClientRect();return [(cx-r.left)/r.width,1-(cy-r.top)/r.height];};
-  host.addEventListener('pointermove',(e)=>{const t=performance.now();if(t-last<38)return;last=t;const[x,y]=toUV(e.clientX,e.clientY);addRipple(x,y);},{passive:true});
+  host.addEventListener('pointermove',(e)=>{const t=performance.now();if(t-last<80)return;last=t;const[x,y]=toUV(e.clientX,e.clientY);addRipple(x,y);},{passive:true});
   host.addEventListener('pointerdown',(e)=>{const[x,y]=toUV(e.clientX,e.clientY);addRipple(x,y);addRipple(x,y);},{passive:true});
   addRipple(0.5,0.5);
 
-  storyWaterRunning = true;
-  (function frame(){
+  let rafId = null;
+  function animate() {
+    rafId = requestAnimationFrame(animate);
     gl.uniform2f(uRes,canvas.width,canvas.height);
     gl.uniform1f(uTime,nowS());
     gl.uniform3fv(uRip,rip);
     gl.drawArrays(gl.TRIANGLES,0,3);
-    requestAnimationFrame(frame);
-  })();
+  }
+  function setRun(on) {
+    if (on && rafId === null) { animate(); }
+    if (!on && rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+  }
+  new IntersectionObserver((es)=>{es.forEach(e=>setRun(e.isIntersecting));},{threshold:0}).observe(host);
 }
 
 
@@ -902,31 +908,29 @@ function initNotifyWater() {
   const rip=new Float32Array(36); for(let i=0;i<12;i++) rip[i*3+2]=-100;
   let head=0; const t0=performance.now(); const nowS=()=>(performance.now()-t0)/1000;
   const addRipple=(x,y)=>{rip[head*3]=x;rip[head*3+1]=y;rip[head*3+2]=nowS();head=(head+1)%12;};
-  function resize(){const dpr=Math.min(devicePixelRatio||1,2);
+  function resize(){const dpr=Math.min(devicePixelRatio||1,1.5);
     canvas.width=Math.floor(canvas.clientWidth*dpr); canvas.height=Math.floor(canvas.clientHeight*dpr);
     gl.viewport(0,0,canvas.width,canvas.height);}
   window.addEventListener('resize',resize); resize();
   let last=0;
   const toUV=(cx,cy)=>{const r=canvas.getBoundingClientRect();return [(cx-r.left)/r.width,1-(cy-r.top)/r.height];};
-  host.addEventListener('pointermove',(e)=>{const t=performance.now();if(t-last<38)return;last=t;const[x,y]=toUV(e.clientX,e.clientY);addRipple(x,y);},{passive:true});
+  host.addEventListener('pointermove',(e)=>{const t=performance.now();if(t-last<80)return;last=t;const[x,y]=toUV(e.clientX,e.clientY);addRipple(x,y);},{passive:true});
   host.addEventListener('pointerdown',(e)=>{const[x,y]=toUV(e.clientX,e.clientY);addRipple(x,y);addRipple(x,y);},{passive:true});
   addRipple(0.5,0.5);
 
-  let running=false, rafId=null;
-  function frame(){
-    if(!running) return;
+  let rafId = null;
+  function animate() {
+    rafId = requestAnimationFrame(animate);
     gl.uniform2f(uRes,canvas.width,canvas.height);
     gl.uniform1f(uTime,nowS());
     gl.uniform3fv(uRip,rip);
     gl.drawArrays(gl.TRIANGLES,0,3);
-    rafId=requestAnimationFrame(frame);
   }
-  function setRun(on){
-    running=!!on;
-    if(on){ if(rafId===null) rafId=requestAnimationFrame(frame); }
-    else if(rafId!==null){ cancelAnimationFrame(rafId); rafId=null; }
+  function setRun(on) {
+    if (on && rafId === null) { animate(); }
+    if (!on && rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
   }
-  new IntersectionObserver((es)=>{es.forEach(e=>setRun(e.isIntersecting));},{threshold:0.05}).observe(host);
+  new IntersectionObserver((es)=>{es.forEach(e=>setRun(e.isIntersecting));},{threshold:0}).observe(host);
 }
 initNotifyWater();
 </script>
