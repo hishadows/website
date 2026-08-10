@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bonded & Co. — Permanent Jewelry Pop-Up | Windsor & Essex County</title>
-<meta name="description" content="Bonded & Co. is Windsor & Essex County's permanent jewelry pop-up. Sterling silver, gold filled & rose gold filled chains, welded on for good. Book a party of 5+ and we come to you.">
+<meta name="description" content="Bonded & Co. is Windsor & Essex County's permanent jewelry pop-up. Sterling silver, gold filled & rose gold filled chains, fused in place for good. Book a party of 5+ and we come to you.">
 <meta name="theme-color" content="#FF3E8E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -107,15 +107,26 @@
     nav{
       position:fixed; inset:0; top:64px;
       background:var(--pearl);
-      flex-direction:column; justify-content:flex-start; padding-top:3rem;
-      gap:1.8rem;
+      flex-direction:column; justify-content:flex-start; align-items:center;
+      padding-top:1.6rem; padding-bottom:2rem;
+      gap:0;
       transform:translateX(100%);
       transition:transform .45s var(--ease);
       overflow-y:auto;
-      padding-bottom:3rem;
+      -webkit-overflow-scrolling:touch;
     }
     nav.open{transform:translateX(0);}
-    nav a{font-size:1.1rem;}
+    nav a{
+      font-size:1.05rem;
+      width:100%; text-align:center;
+      padding:0.9rem 2rem;
+      border-bottom:1px solid var(--chrome-line);
+    }
+    nav a.nav-cta{
+      margin:1.2rem 2rem 0;
+      width:auto; border-bottom:none;
+      border-radius:999px;
+    }
     .nav-toggle{
       display:block; background:none; border:none; z-index:110; cursor:pointer;
       width:26px; height:18px; position:relative; padding:0; flex-shrink:0;
@@ -644,7 +655,7 @@
     <a href="#events">Events</a>
     <a href="#reels">Reels</a>
     <a href="#contact">Contact</a>
-    <a href="#book" class="nav-cta">Book a Party</a>
+    <a href="#book" class="nav-cta">Get Bonded</a>
   </nav>
 </header>
 
@@ -656,14 +667,14 @@
       <div class="hero-copy">
         <div class="eyebrow">Windsor &amp; Essex County</div>
         <h1>Say goodbye<br>to clasps.<span class="script">Get bonded.</span></h1>
-        <p>Bonded &amp; Co. is your new favorite permanent jewelry pop-up — sterling silver, gold filled, and rose gold filled chains, welded onto your wrist right there on the spot.</p>
+        <p>Bonded &amp; Co. is your new favorite permanent jewelry pop-up — sterling silver, gold filled, and rose gold filled chains, fused onto you right there on the spot.</p>
         <div class="btn-row">
           <a href="#book" class="btn btn-flash">Book a Party</a>
           <a href="https://www.instagram.com/bondedandco" target="_blank" rel="noopener" class="btn btn-outline">Follow @bondedandco</a>
         </div>
       </div>
       <div class="hero-visual">
-        <div class="hero-badge">FOREVER<br>WELDED<br>ON</div>
+        <div class="hero-badge">FUSED<br>FOR<br>GOOD</div>
         <img class="hv-a" src="images/party-friends-fistbump.jpg" alt="Friends showing off their new permanent jewelry bracelets at a Bonded & Co pop-up">
         <img class="hv-b" src="images/jewelry-birthstone-bracelets.jpg" alt="Birthstone charm bracelets by Bonded & Co">
         <img class="hv-c" src="images/jewelry-hand-chain.jpg" alt="Delicate hand chain jewelry by Bonded & Co">
@@ -705,7 +716,7 @@
       <div class="reveal d1">
         <div class="eyebrow">Our Story</div>
         <h2 class="display" style="margin:1rem 0 1.4rem;">Started by two friends who loved the idea of never taking it off.</h2>
-        <p style="color:var(--ink-soft); max-width:52ch; font-size:1.02rem;">Bonded &amp; Co. started small — two friends who got their own permanent bracelets welded on and couldn't stop talking about it. What began as something fun to share turned into a full pop-up: bracelets, anklets, necklaces and rings, welded closed right on you, no clasps required. Now we bring that same experience to parties, markets, and pop-ups across Windsor and Essex County.</p>
+        <p style="color:var(--ink-soft); max-width:52ch; font-size:1.02rem;">Bonded &amp; Co. started small — two friends who got their own permanent bracelets fused on and couldn't stop talking about it. What began as something fun to share turned into a full pop-up: bracelets, anklets, necklaces and rings, fused closed right on you — no clasps, no hardware. Now we bring that same experience to parties, markets, and pop-ups across Windsor and Essex County.</p>
         <div class="about-badges">
           <span class="badge pop">Sterling Silver</span>
           <span class="badge pop">Gold Filled</span>
@@ -743,7 +754,7 @@
       <div class="how-grid reveal d1">
         <div class="how-step"><span class="how-num">01</span><h3>Pick your chain</h3><p>Sterling silver, gold filled, or rose gold filled — pick the metal and the style.</p></div>
         <div class="how-step"><span class="how-num">02</span><h3>Add charms</h3><p>Birthstones, initials, symbols — build a piece that's actually yours.</p></div>
-        <div class="how-step"><span class="how-num">03</span><h3>Get bonded</h3><p>We weld the chain closed right on your wrist, ankle, or neck. Quick and painless.</p></div>
+        <div class="how-step"><span class="how-num">03</span><h3>Get bonded</h3><p>We fuse the chain closed right on you — quick, painless, and bonded for good.</p></div>
         <div class="how-step"><span class="how-num">04</span><h3>Wear it forever</h3><p>No clasp to lose, no chain to break. It's on for good.</p></div>
       </div>
     </div>
@@ -782,7 +793,7 @@
       <div class="reveal">
         <div class="eyebrow" style="color:var(--volt);">Pricing</div>
         <h2 class="display" style="margin-top:1rem; color:var(--pearl);">What does it cost?</h2>
-        <p class="pricing-intro">Tap any category to see our current prices — all pieces welded on by hand, on the spot.</p>
+        <p class="pricing-intro">Tap any category to see our current prices — all pieces fused by hand, right on you.</p>
       </div>
       <div class="pricing-accordion reveal d1">
 
@@ -989,7 +1000,7 @@
   <div class="footer-top">
     <div>
       <div class="footer-logo"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--holo);display:inline-block;"></span>Bonded&amp;Co.</div>
-      <p>Permanent jewelry, welded on for good. Serving Windsor and Essex County, one pop-up at a time.</p>
+      <p>Permanent jewelry, fused for good. Serving Windsor and Essex County, one pop-up at a time.</p>
     </div>
     <div class="footer-links">
       <a href="#about">Our Story</a>
@@ -1029,7 +1040,7 @@
       date: "Happening Now",
       live: true,
       title: "Windsor's Farmers' Market",
-      desc: "Find us set up live at Windsor's Farmers' Market — walk-in welds, charm add-ons, and new pieces made on the spot.",
+      desc: "Find us set up live at Windsor's Farmers' Market — walk-in fusing, charm add-ons, and new pieces made on the spot.",
       loc: "Windsor Farmers' Market",
       img: "images/event-market.jpg"
     },
