@@ -68,12 +68,13 @@
     font-family:var(--body); font-weight:800; font-size:0.86rem;
     padding:15px 28px; border-radius:999px;
     transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+    border:none; cursor:pointer;
   }
   .btn-flash{background:var(--flash); color:#fff; box-shadow:0 8px 24px rgba(255,62,142,0.35);}
   .btn-flash:hover{transform:translateY(-3px) scale(1.02); box-shadow:0 14px 32px rgba(255,62,142,0.45);}
   .btn-ink{background:var(--ink); color:var(--pearl);}
   .btn-ink:hover{transform:translateY(-3px) scale(1.02);}
-  .btn-outline{border:2px solid var(--ink); color:var(--ink);}
+  .btn-outline{border:2px solid var(--ink); color:var(--ink); background:transparent;}
   .btn-outline:hover{background:var(--ink); color:var(--pearl); transform:translateY(-3px);}
 
   .reveal{opacity:0; transform:translateY(32px); transition:opacity .8s var(--ease), transform .8s var(--ease);}
@@ -94,7 +95,7 @@
     font-family:var(--display); font-weight:800; font-size:1.3rem;
     display:flex; align-items:center; gap:8px;
   }
-  .logo .dot{width:8px; height:8px; border-radius:50%; background:var(--holo); display:inline-block;}
+  .logo .dot{width:8px; height:8px; border-radius:50%; background:var(--holo); display:inline-block; flex-shrink:0;}
   nav{display:flex; gap:2rem; align-items:center;}
   nav a{font-weight:700; font-size:0.82rem; letter-spacing:.02em;}
   nav a:not(.nav-cta){position:relative; padding-bottom:3px;}
@@ -102,7 +103,7 @@
   nav a:not(.nav-cta):hover::after{width:100%;}
   .nav-cta{background:var(--ink); color:var(--pearl); padding:10px 20px; border-radius:999px; font-weight:800;}
   .nav-toggle{display:none;}
-  @media (max-width:900px){
+  @media (max-width:960px){
     nav{
       position:fixed; inset:0; top:64px;
       background:var(--pearl);
@@ -110,12 +111,14 @@
       gap:1.8rem;
       transform:translateX(100%);
       transition:transform .45s var(--ease);
+      overflow-y:auto;
+      padding-bottom:3rem;
     }
     nav.open{transform:translateX(0);}
-    nav a{font-size:1.15rem;}
+    nav a{font-size:1.1rem;}
     .nav-toggle{
       display:block; background:none; border:none; z-index:110; cursor:pointer;
-      width:26px; height:18px; position:relative;
+      width:26px; height:18px; position:relative; padding:0; flex-shrink:0;
     }
     .nav-toggle span{position:absolute; left:0; width:100%; height:2px; background:var(--ink); border-radius:2px; transition:transform .3s var(--ease), opacity .3s var(--ease);}
     .nav-toggle span:nth-child(1){top:0;}
@@ -124,6 +127,11 @@
     .nav-toggle.open span:nth-child(1){transform:translateY(8px) rotate(45deg);}
     .nav-toggle.open span:nth-child(2){opacity:0;}
     .nav-toggle.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}
+    .logo{font-size:1.15rem;}
+  }
+  @media (max-width:400px){
+    header{padding:16px 5vw;}
+    .logo{font-size:1.05rem;}
   }
 
   /* ===== Hero ===== */
@@ -154,7 +162,7 @@
   .hero-copy .eyebrow{margin-bottom:1.2rem;}
   .hero h1{
     font-family:var(--display); font-weight:800; letter-spacing:-0.03em;
-    font-size:clamp(2.6rem,6vw,4.6rem); line-height:0.98;
+    font-size:clamp(2.4rem,6vw,4.6rem); line-height:0.98;
   }
   .hero h1 .script{
     display:block; font-family:var(--script); font-weight:700;
@@ -190,7 +198,12 @@
   @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
   @media (max-width:900px){
     .hero-grid{grid-template-columns:1fr;}
-    .hero-visual{margin-top:2.4rem;}
+    .hero-visual{margin-top:2.4rem; max-width:440px; margin-left:auto; margin-right:auto;}
+  }
+  @media (max-width:480px){
+    .hero{padding-top:76px;}
+    .hero-badge{width:84px; height:84px; font-size:0.62rem; top:-12px; left:-12px;}
+    .hero-visual{gap:10px;}
   }
 
   /* ===== Marquee ===== */
@@ -228,7 +241,7 @@
   @keyframes flashpop{0%{opacity:0; transform:scale(0.2);}50%{opacity:1; transform:scale(1.4);}100%{opacity:1; transform:scale(1);}}
   .bond-line{position:absolute; left:0; right:0; top:50%; height:1px; background:var(--chrome-line);}
 
-  /* ===== About ===== */
+  /* ===== About / Founders story ===== */
   .about{
     display:grid; grid-template-columns:0.85fr 1.15fr; gap:5vw; align-items:center;
   }
@@ -246,14 +259,18 @@
   }
   .stat span{font-size:0.76rem; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:var(--ink-soft);}
   .about-visual{position:relative;}
-  .about-visual img{border-radius:22px; width:100%; aspect-ratio:4/5; object-fit:cover;}
+  .about-visual img{border-radius:22px; width:100%; aspect-ratio:4/5; object-fit:cover; object-position:top center;}
   .about-sticker{
     position:absolute; bottom:-22px; right:-14px;
     background:var(--volt); color:var(--ink);
-    font-family:var(--script); font-weight:700; font-size:1.5rem;
+    font-family:var(--script); font-weight:700; font-size:1.4rem;
     padding:16px 26px; border-radius:50% 50% 50% 6px;
     transform:rotate(-6deg);
     box-shadow:0 10px 26px rgba(0,0,0,0.15);
+    text-align:center; line-height:1.15;
+  }
+  @media (max-width:480px){
+    .about-sticker{font-size:1.1rem; padding:12px 18px; bottom:-14px; right:-8px;}
   }
 
   /* ===== How it works ===== */
@@ -277,7 +294,7 @@
   .how-step h3{font-family:var(--display); font-weight:700; font-size:1.15rem; margin-bottom:.5rem;}
   .how-step p{font-size:0.88rem; color:rgba(255,252,246,0.65); font-weight:400;}
   @media (max-width:900px){.how-grid{grid-template-columns:1fr 1fr;}}
-  @media (max-width:560px){.how-grid{grid-template-columns:1fr;}}
+  @media (max-width:560px){.how-grid{grid-template-columns:1fr; gap:1.2rem;}}
 
   /* ===== Jewelry gallery ===== */
   .jewel-grid{
@@ -285,9 +302,11 @@
   }
   .jewel-card{
     position:relative; overflow:hidden; border-radius:20px; aspect-ratio:4/5;
+    background:var(--ink);
   }
   .jewel-card img{width:100%; height:100%; object-fit:cover; transition:transform .8s var(--ease);}
   .jewel-card:hover img{transform:scale(1.08);}
+  .jewel-card svg{width:100%; height:100%;}
   .jewel-tag{
     position:absolute; left:14px; bottom:14px;
     background:rgba(255,252,246,0.92); backdrop-filter:blur(6px);
@@ -308,13 +327,17 @@
     padding:1.4rem;
     transition:transform .4s var(--ease), box-shadow .4s var(--ease);
   }
+  .event-card.live{border-color:var(--flash); box-shadow:0 0 0 3px rgba(255,62,142,0.12);}
   .event-card:hover{transform:translateY(-4px); box-shadow:0 20px 40px rgba(23,21,28,0.08);}
-  .event-img{width:220px; height:150px; border-radius:14px; overflow:hidden;}
+  .event-img{width:220px; height:150px; border-radius:14px; overflow:hidden; background:var(--ink); flex-shrink:0;}
   .event-img img{width:100%; height:100%; object-fit:cover;}
   .event-date{
     font-family:var(--display); font-weight:800; font-size:0.78rem;
     color:var(--flash-deep); letter-spacing:.05em; text-transform:uppercase; margin-bottom:.4rem;
+    display:flex; align-items:center; gap:8px;
   }
+  .live-dot{width:8px; height:8px; border-radius:50%; background:var(--flash); display:inline-block; animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
   .event-card h3{font-family:var(--display); font-weight:700; font-size:1.3rem; margin-bottom:.4rem;}
   .event-card p{font-size:0.9rem; color:var(--ink-soft);}
   .event-loc{font-size:0.82rem; font-weight:700; color:var(--ink-soft); margin-top:.5rem; display:flex; align-items:center; gap:6px;}
@@ -324,7 +347,6 @@
   }
 
   /* ===== Reels / Instagram ===== */
-  .reels-section{}
   .ig-row{display:flex; justify-content:space-between; align-items:flex-end; gap:1.6rem; flex-wrap:wrap; margin-bottom:2.6rem;}
   .ig-follow{
     display:inline-flex; align-items:center; gap:10px;
@@ -350,7 +372,11 @@
   }
   .reel-play-btn svg{width:20px; height:20px; margin-left:3px;}
   .reel-card.playing .reel-play{opacity:0; pointer-events:none;}
-  @media (max-width:780px){.reel-grid{grid-template-columns:1fr 1fr 1fr; gap:0.7rem;}}
+  @media (max-width:780px){.reel-grid{grid-template-columns:1fr 1fr 1fr; gap:0.6rem;}}
+  @media (max-width:420px){.reel-grid{gap:0.4rem;}
+    .reel-play-btn{width:38px; height:38px;}
+    .reel-play-btn svg{width:14px; height:14px;}
+  }
 
   /* ===== Party CTA ===== */
   .party-band{
@@ -365,9 +391,9 @@
     content:''; position:absolute; inset:0; background:rgba(23,21,28,0.28);
   }
   .party-band > *{position:relative; z-index:1;}
-  .party-band .eyebrow{color:#fff;}
+  .party-band .eyebrow{color:#fff; justify-content:center;}
   .party-band h2{
-    font-family:var(--display); font-weight:800; font-size:clamp(2.2rem,5.4vw,3.8rem);
+    font-family:var(--display); font-weight:800; font-size:clamp(2rem,5.4vw,3.8rem);
     max-width:18ch; margin:1rem auto 1.2rem; line-height:1.03;
   }
   .party-band p{max-width:52ch; margin:0 auto 2.2rem; font-size:1.02rem; color:rgba(255,255,255,0.9);}
@@ -375,27 +401,48 @@
     display:inline-flex; align-items:center; gap:8px;
     background:rgba(255,255,255,0.16); backdrop-filter:blur(6px);
     padding:10px 20px; border-radius:999px; font-weight:800; font-size:0.82rem;
-    margin-bottom:1.8rem;
+    margin-bottom:1.8rem; text-align:center;
   }
   .party-band .btn-flash{background:#fff; color:var(--flash-deep); box-shadow:0 10px 30px rgba(0,0,0,0.2);}
   .party-band .btn-flash:hover{background:var(--ink); color:#fff;}
   .party-band .btn-outline{border-color:#fff; color:#fff;}
   .party-band .btn-outline:hover{background:#fff; color:var(--flash-deep);}
 
-  /* ===== Contact ===== */
-  .contact{display:grid; grid-template-columns:1fr 1fr; gap:5vw; align-items:center;}
-  .contact-card{
-    background:var(--ink); color:var(--pearl); border-radius:24px; padding:2.6rem;
-  }
-  .contact-card h3{font-family:var(--display); font-weight:700; font-size:1.5rem; margin-bottom:1.4rem;}
-  .contact-row{display:flex; align-items:center; gap:14px; padding:1rem 0; border-bottom:1px solid rgba(255,252,246,0.14);}
-  .contact-row:last-child{border-bottom:none;}
+  /* ===== Contact + Form ===== */
+  .contact{display:grid; grid-template-columns:1fr 1fr; gap:5vw; align-items:start;}
+  .contact-info{padding-top:0.4rem;}
+  .contact-quicklist{margin-top:2rem;}
+  .contact-row{display:flex; align-items:center; gap:14px; padding:0.9rem 0; border-bottom:1px solid var(--chrome-line);}
+  .contact-row:first-child{border-top:1px solid var(--chrome-line);}
   .contact-row .ic{
-    width:40px; height:40px; border-radius:50%; background:var(--holo);
-    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    width:38px; height:38px; border-radius:50%; background:var(--holo);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#fff; font-size:0.9rem;
   }
-  .contact-row a{font-weight:700; font-size:1.02rem;}
+  .contact-row a, .contact-row span{font-weight:700; font-size:0.98rem;}
+  .contact-card{
+    background:var(--ink); color:var(--pearl); border-radius:24px; padding:2.4rem;
+  }
+  .contact-card h3{font-family:var(--display); font-weight:700; font-size:1.4rem; margin-bottom:0.4rem;}
+  .contact-card .sub{font-size:0.85rem; color:rgba(255,252,246,0.6); margin-bottom:1.8rem;}
+  .form-row{margin-bottom:1.1rem;}
+  .form-row label{display:block; font-size:0.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,252,246,0.6); margin-bottom:0.5rem;}
+  .form-row input, .form-row textarea{
+    width:100%; background:rgba(255,252,246,0.06); border:1.5px solid rgba(255,252,246,0.18);
+    border-radius:12px; padding:13px 16px; color:var(--pearl); font-family:var(--body); font-size:0.95rem;
+    transition:border-color .3s ease, background .3s ease;
+  }
+  .form-row input::placeholder, .form-row textarea::placeholder{color:rgba(255,252,246,0.35);}
+  .form-row input:focus, .form-row textarea:focus{outline:none; border-color:var(--flash); background:rgba(255,252,246,0.1);}
+  .form-row textarea{resize:vertical; min-height:110px;}
+  .form-honeypot{position:absolute; left:-9999px; opacity:0; height:0; width:0;}
+  .contact-form .btn{width:100%; justify-content:center; margin-top:0.4rem;}
+  .form-note{font-size:0.76rem; color:rgba(255,252,246,0.45); margin-top:1rem; text-align:center;}
+  .form-status{font-size:0.85rem; font-weight:700; margin-top:1rem; text-align:center; display:none;}
+  .form-status.show{display:block;}
+  .form-status.ok{color:var(--volt);}
+  .form-status.err{color:#FF8FBB;}
   @media (max-width:900px){.contact{grid-template-columns:1fr;}}
+  @media (max-width:480px){.contact-card{padding:1.8rem;}}
 
   /* ===== Footer ===== */
   footer{background:var(--ink); color:rgba(255,252,246,0.7); padding:60px 6vw 26px;}
@@ -405,6 +452,14 @@
   .footer-links{display:flex; gap:2.4rem; flex-wrap:wrap;}
   .footer-links a{font-size:0.86rem; font-weight:700; color:rgba(255,252,246,0.85);}
   .footer-bottom{display:flex; justify-content:space-between; padding-top:1.6rem; font-size:0.76rem; flex-wrap:wrap; gap:1rem;}
+
+  /* ===== Global mobile safety ===== */
+  @media (max-width:540px){
+    .section-pad{padding:56px 0;}
+    h2.display{font-size:clamp(1.9rem,7vw,2.6rem);}
+    .btn{padding:14px 22px; font-size:0.78rem;}
+    .wrap{padding-left:5.5vw; padding-right:5.5vw;}
+  }
 </style>
 </head>
 <body>
@@ -413,11 +468,12 @@
   <a href="#top" class="logo"><span class="dot"></span>Bonded&amp;Co.</a>
   <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
   <nav id="navMenu">
-    <a href="#about">About</a>
+    <a href="#about">Our Story</a>
     <a href="#how">How It Works</a>
     <a href="#jewelry">Jewelry</a>
     <a href="#events">Events</a>
     <a href="#reels">Reels</a>
+    <a href="#contact">Contact</a>
     <a href="#book" class="nav-cta">Book a Party</a>
   </nav>
 </header>
@@ -469,17 +525,17 @@
     </svg>
   </div>
 
-  <!-- ABOUT -->
+  <!-- ABOUT / FOUNDERS STORY -->
   <section id="about" class="section-pad">
     <div class="wrap about">
       <div class="about-visual reveal">
-        <img src="images/jewelry-hand-chain.jpg" alt="Layered chain jewelry on a hand, Bonded & Co style">
-        <div class="about-sticker">bonded<br>for life</div>
+        <img src="images/founders-portrait.jpg" alt="The two founders behind Bonded & Co">
+        <div class="about-sticker">two friends,<br>one idea</div>
       </div>
       <div class="reveal d1">
-        <div class="eyebrow">We Are Bonded&amp;Co.</div>
-        <h2 class="display" style="margin:1rem 0 1.4rem;">Your new favorite permanent jewelry pop-up.</h2>
-        <p style="color:var(--ink-soft); max-width:52ch; font-size:1.02rem;">We bring the experience of permanent jewelry to Windsor and Essex County — bracelets, anklets, necklaces and rings, welded closed right on you. No clasps, no losing it, no taking it off. Just on, and bonded.</p>
+        <div class="eyebrow">Our Story</div>
+        <h2 class="display" style="margin:1rem 0 1.4rem;">Started by two friends who loved the idea of never taking it off.</h2>
+        <p style="color:var(--ink-soft); max-width:52ch; font-size:1.02rem;">Bonded &amp; Co. started small — two friends who got their own permanent bracelets welded on and couldn't stop talking about it. What began as something fun to share turned into a full pop-up: bracelets, anklets, necklaces and rings, welded closed right on you, no clasps required. Now we bring that same experience to parties, markets, and pop-ups across Windsor and Essex County.</p>
         <div class="about-badges">
           <span class="badge pop">Sterling Silver</span>
           <span class="badge pop">Gold Filled</span>
@@ -562,7 +618,7 @@
   </section>
 
   <!-- REELS -->
-  <section id="reels" class="reels-section section-pad">
+  <section id="reels" class="section-pad">
     <div class="wrap">
       <div class="ig-row reveal">
         <div>
@@ -605,28 +661,49 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- CONTACT + FORM -->
   <section id="book" class="section-pad">
     <div class="wrap contact">
-      <div class="reveal">
+      <div class="contact-info reveal">
         <div class="eyebrow">Get Bonded</div>
         <h2 class="display" style="margin:1rem 0 1.4rem;">Ready when you are.</h2>
-        <p style="color:var(--ink-soft); max-width:46ch; font-size:1.02rem;">Book a party, ask about an upcoming pop-up, or just say hi — we're easiest to reach on Instagram or by email.</p>
+        <p style="color:var(--ink-soft); max-width:46ch; font-size:1.02rem;">Book a party, ask about an upcoming pop-up, or just say hi — send a message and it'll land straight in our inbox.</p>
+        <div class="contact-quicklist">
+          <div class="contact-row"><div class="ic">✦</div><a href="mailto:bondedandcojewelry@gmail.com">bondedandcojewelry@gmail.com</a></div>
+          <div class="contact-row"><div class="ic">✦</div><a href="https://www.instagram.com/bondedandco" target="_blank" rel="noopener">@bondedandco</a></div>
+          <div class="contact-row"><div class="ic">✦</div><span>Windsor &amp; Essex County, ON</span></div>
+        </div>
       </div>
-      <div class="contact-card reveal d1">
-        <h3>Book &amp; Connect</h3>
-        <div class="contact-row">
-          <div class="ic">✦</div>
-          <a href="mailto:bondedandcojewelry@gmail.com">bondedandcojewelry@gmail.com</a>
-        </div>
-        <div class="contact-row">
-          <div class="ic">✦</div>
-          <a href="https://www.instagram.com/bondedandco" target="_blank" rel="noopener">@bondedandco</a>
-        </div>
-        <div class="contact-row">
-          <div class="ic">✦</div>
-          <span style="font-weight:700; font-size:1.02rem;">Windsor &amp; Essex County, ON</span>
-        </div>
+
+      <div id="contact" class="contact-card reveal d1">
+        <h3>Send Us a Message</h3>
+        <p class="sub">Fill this out and it goes straight to our email.</p>
+        <form class="contact-form" id="contactForm" action="https://formsubmit.co/bondedandcojewelry@gmail.com" method="POST">
+          <input type="text" name="_honey" class="form-honeypot" tabindex="-1" autocomplete="off">
+          <input type="hidden" name="_subject" value="New message from the Bonded & Co. website">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+
+          <div class="form-row">
+            <label for="fname">Name</label>
+            <input type="text" id="fname" name="Name" placeholder="Your name" required>
+          </div>
+          <div class="form-row">
+            <label for="femail">Email</label>
+            <input type="email" id="femail" name="Email" placeholder="you@email.com" required>
+          </div>
+          <div class="form-row">
+            <label for="fphone">Phone (optional)</label>
+            <input type="tel" id="fphone" name="Phone" placeholder="(519) 000-0000">
+          </div>
+          <div class="form-row">
+            <label for="fmsg">Message</label>
+            <textarea id="fmsg" name="Message" placeholder="Tell us about your party, event, or question..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-flash">Send Message</button>
+          <p class="form-status" id="formStatus"></p>
+          <p class="form-note">We'll get back to you within a day or two. Prefer email? Write us directly at bondedandcojewelry@gmail.com</p>
+        </form>
       </div>
     </div>
   </section>
@@ -640,11 +717,11 @@
       <p>Permanent jewelry, welded on for good. Serving Windsor and Essex County, one pop-up at a time.</p>
     </div>
     <div class="footer-links">
-      <a href="#about">About</a>
+      <a href="#about">Our Story</a>
       <a href="#how">How It Works</a>
       <a href="#events">Events</a>
       <a href="#reels">Reels</a>
-      <a href="#book">Book a Party</a>
+      <a href="#contact">Contact</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -669,7 +746,17 @@
   }));
 
   // ===== Events data — add new events here =====
+  // To add an event: copy one of the objects below, edit the fields, and add
+  // an image to the images/ folder (or reuse an existing one).
   const eventsData = [
+    {
+      date: "Happening Now",
+      live: true,
+      title: "Windsor's Farmers' Market",
+      desc: "Find us set up live at Windsor's Farmers' Market — walk-in welds, charm add-ons, and new pieces made on the spot.",
+      loc: "Windsor Farmers' Market",
+      img: "images/event-market.svg"
+    },
     {
       date: "Coming Up",
       title: "Pop-Up Party Bookings Open",
@@ -683,28 +770,21 @@
       desc: "A group of 10+ friends got bonded together in one afternoon — bracelets, anklets, and a whole lot of fist bumps.",
       loc: "Private Residence, Windsor",
       img: "images/reel-2-poster.jpg"
-    },
-    {
-      date: "Recent",
-      title: "Pop-Up Shop Appearance",
-      desc: "Bonded & Co. set up shop for a day of walk-in welds, charm add-ons, and new friend bracelets.",
-      loc: "Local Pop-Up Market",
-      img: "images/reel-3-poster.jpg"
     }
   ];
   const eventList = document.getElementById('eventList');
   eventsData.forEach(ev => {
     const card = document.createElement('div');
-    card.className = 'event-card';
+    card.className = 'event-card' + (ev.live ? ' live' : '');
     card.innerHTML = `
       <div class="event-img"><img src="${ev.img}" alt="${ev.title}"></div>
       <div>
-        <div class="event-date">${ev.date}</div>
+        <div class="event-date">${ev.live ? '<span class="live-dot"></span>' : ''}${ev.date}</div>
         <h3>${ev.title}</h3>
         <p>${ev.desc}</p>
         <div class="event-loc">📍 ${ev.loc}</div>
       </div>
-      <div><a href="#book" class="btn btn-outline" style="padding:11px 20px; font-size:0.78rem;">Inquire</a></div>
+      <div><a href="#contact" class="btn btn-outline" style="padding:11px 20px; font-size:0.78rem;">Inquire</a></div>
     `;
     eventList.appendChild(card);
   });
@@ -721,6 +801,37 @@
         card.classList.remove('playing');
       }
     });
+  });
+
+  // Contact form — AJAX submit via FormSubmit so the page doesn't reload
+  const contactForm = document.getElementById('contactForm');
+  const formStatus = document.getElementById('formStatus');
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = contactForm.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    formStatus.className = 'form-status';
+    try {
+      const res = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        formStatus.textContent = "Message sent — we'll be in touch soon!";
+        formStatus.classList.add('show', 'ok');
+        contactForm.reset();
+      } else {
+        throw new Error('Send failed');
+      }
+    } catch (err) {
+      formStatus.textContent = "Something went wrong — please email us directly instead.";
+      formStatus.classList.add('show', 'err');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+    }
   });
 
   // Reveal + bond-divider on scroll
