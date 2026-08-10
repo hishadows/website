@@ -91,6 +91,16 @@
     border-bottom:1px solid var(--chrome-line);
     transition:padding .3s var(--ease);
   }
+  /* Desktop: nav sits inline with the header */
+  @media (min-width:961px){
+    nav{
+      position:fixed; top:0; right:6vw;
+      height:68px;
+      display:flex; align-items:center;
+      z-index:101;
+      background:transparent;
+    }
+  }
   .logo{
     font-family:var(--display); font-weight:800; font-size:1.3rem;
     display:flex; align-items:center; gap:8px;
@@ -662,7 +672,8 @@
 <header id="siteHeader">
   <a href="#top" class="logo"><span class="dot"></span>Bonded&amp;Co.</a>
   <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
-  <nav id="navMenu">
+</header>
+<nav id="navMenu">
     <a href="#about">Our Story</a>
     <a href="#how">How It Works</a>
     <a href="#jewelry">Jewelry</a>
@@ -670,9 +681,8 @@
     <a href="#events">Events</a>
     <a href="#reels">Reels</a>
     <a href="#contact">Contact</a>
-    <a href="#book" class="nav-cta">Book a Party</a>
-  </nav>
-</header>
+    <a href="#book" class="nav-cta">Get Bonded</a>
+</nav>
 
 <main id="top">
 
