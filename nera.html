@@ -192,12 +192,12 @@
   .notify__sun{position:absolute;left:50%;bottom:-34vw;translate:-50% 0;width:70vw;height:70vw;border-radius:50%;
     background:radial-gradient(circle,rgba(225,154,85,.26),transparent 62%);z-index:0}
   .notify .shell{position:relative;z-index:1;max-width:min(640px,90vw)}
-  .notify .eyebrow{color:var(--olive)}
-  .notify h2{font-family:var(--serif);font-weight:500;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.05;margin:1rem 0 1rem}
-  .notify p{opacity:.72;margin-bottom:2rem}
+  .notify .eyebrow{color:var(--amber)}
+  .notify h2{font-family:var(--serif);font-weight:500;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.05;margin:1rem 0 1rem;color:var(--cream)}
+  .notify p{opacity:.72;margin-bottom:2rem;color:var(--cream)}
   .nform{display:flex;gap:.6rem;max-width:440px;margin:0 auto}
-  .nform input{flex:1;background:transparent;border:1px solid var(--line);color:var(--ink);padding:1rem 1.1rem;font-family:var(--sans);font-size:.95rem}
-  .nform input::placeholder{color:rgba(18,20,29,.4)}
+  .nform input{flex:1;background:transparent;border:1px solid rgba(243,238,226,.4);color:var(--cream);padding:1rem 1.1rem;font-family:var(--sans);font-size:.95rem}
+  .nform input::placeholder{color:rgba(243,238,226,.45)}
   .nform button{background:var(--ink);color:var(--cream);border:0;cursor:pointer;font-size:.72rem;
     letter-spacing:.16em;text-transform:uppercase;padding:0 1.5rem;transition:.4s}
   .nform button:hover{background:var(--pom)}
@@ -330,12 +330,9 @@
   .story-water__veil{position:absolute;inset:0;z-index:1;pointer-events:none;
     background:radial-gradient(80% 70% at 50% 50%, rgba(18,20,29,.30), rgba(18,20,29,.62))}
   .story-water__copy{position:relative;z-index:2;max-width:min(760px,88vw)}
-  .story-water__copy h2{font-family:var(--serif);font-weight:500;font-style:italic;
+  .story-water__copy h2{font-family:var(--serif);font-weight:500;color:var(--cream);
     font-size:clamp(1.8rem,5vw,3.8rem);line-height:1.08;
     text-shadow:0 2px 8px rgba(0,0,0,.5),0 8px 44px rgba(0,0,0,.5)}
-  .story-water__copy em{color:var(--amber);font-style:normal}
-  .story-water__attr{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
-    opacity:.6;margin-top:1.4rem}
 
   /* FOUNDER CARDS */
   .founder-cards{background:var(--cream);padding:8rem 0}
@@ -419,8 +416,7 @@
     <canvas id="storyCanvas" aria-hidden="true"></canvas>
     <div class="story-water__veil" aria-hidden="true"></div>
     <div class="story-water__copy">
-      <h2>"Bodies are not meant to fit swimwear.<br><em>Swimwear is meant to fit bodies.</em>"</h2>
-      <p class="story-water__attr">The idea that started everything</p>
+      <h2>Built for the way real bodies move.</h2>
     </div>
   </div>
 
@@ -591,16 +587,20 @@
 
   <!-- NOTIFY -->
   <section class="notify" id="notify">
+    <canvas id="notifyCanvas" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0"></canvas>
+    <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;background:rgba(18,20,29,0.62)"></div>
     <div class="notify__sun" aria-hidden="true"></div>
     <div class="shell">
-      <p class="eyebrow">Collection 01</p>
-      <h2>Be first in the water.</h2>
-      <p>Drop your email and we'll tell you the moment NERA opens. No noise — just the launch.</p>
-      <form class="nform" id="nform" novalidate>
-        <input type="email" id="nemail" placeholder="you@email.com" aria-label="Email address" required>
-        <button type="submit">Notify me</button>
-      </form>
-      <p class="nmsg" id="nmsg" role="status"></p>
+      <div style="position:relative;z-index:2">
+        <p class="eyebrow">Collection 01</p>
+        <h2>Be first in the water.</h2>
+        <p>Drop your email and we'll tell you the moment NERA opens. No noise — just the launch.</p>
+        <form class="nform" id="nform" novalidate>
+          <input type="email" id="nemail" placeholder="you@email.com" aria-label="Email address" required>
+          <button type="submit">Notify me</button>
+        </form>
+        <p class="nmsg" id="nmsg" role="status"></p>
+      </div>
     </div>
   </section>
 </main>
@@ -838,6 +838,97 @@ function initStoryWater() {
     form.classList.add('done'); msg.textContent="You're on the list. See you at the water."; msg.classList.add('show');
   });
 })();
+
+/* ---------- NOTIFY: WebGL caustic water (independent instance, runs on load) ---------- */
+function initNotifyWater() {
+  const host = document.getElementById('notify');
+  const canvas = document.getElementById('notifyCanvas');
+  if (!canvas || !host) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+
+  let gl; try { gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl'); } catch(e) {}
+  if (!gl) return;
+
+  const VERT = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}';
+  const FRAG = `
+  precision highp float;
+  uniform vec2 uRes; uniform float uTime; uniform vec3 uRip[12];
+  float caustic(vec2 uv,float t){
+    vec2 p=mod(uv*6.28318,6.28318)-250.0; vec2 i=p; float c=1.0; float inten=0.0045;
+    for(int n=0;n<5;n++){
+      float tt=t*(1.0-(3.5/float(n+1)));
+      i=p+vec2(cos(tt-i.x)+sin(tt+i.y),sin(tt-i.y)+cos(tt+i.x));
+      c+=1.0/length(vec2(p.x/(sin(i.x+tt)/inten),p.y/(cos(i.y+tt)/inten)));
+    }
+    c/=5.0; c=1.17-pow(c,1.4); return pow(abs(c),8.0);
+  }
+  void main(){
+    vec2 uv=gl_FragCoord.xy/uRes; float asp=uRes.x/uRes.y;
+    vec2 disp=vec2(0.0); float rim=0.0;
+    for(int k=0;k<12;k++){
+      vec3 r=uRip[k]; float age=uTime-r.z; float valid=step(0.0,age)*step(age,3.0);
+      vec2 d=uv-r.xy; d.x*=asp; float dist=length(d)+1e-5;
+      float wave=sin(dist*40.0-age*9.0);
+      float env=exp(-dist*4.5)*exp(-age*2.1)*valid;
+      disp+=(d/dist)*wave*env*0.020; rim+=exp(-abs(dist-age*0.34)*20.0)*env*0.8;
+    }
+    vec2 cuv=uv+disp;
+    float light=caustic(cuv*3.2+vec2(0.0,uTime*0.015),uTime*0.38);
+    vec3 deep=vec3(0.071,0.078,0.114), olive=vec3(0.309,0.337,0.118),
+         pom=vec3(0.631,0.129,0.278), amber=vec3(0.882,0.604,0.333);
+    vec3 base=mix(deep,mix(deep,olive,0.55),smoothstep(0.0,0.55,uv.y));
+    base=mix(base,pom,smoothstep(0.55,0.94,uv.y)*0.6);
+    base+=amber*smoothstep(0.82,1.0,uv.y)*0.32;
+    vec3 col=base+light*mix(olive*0.5,amber,uv.y)*(0.50+0.8*uv.y);
+    col+=rim*amber;
+    float vig=smoothstep(1.25,0.25,length((uv-0.5)*vec2(asp,1.0)));
+    col*=0.82+0.18*vig;
+    gl_FragColor=vec4(col,1.0);
+  }`;
+
+  function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);
+    return gl.getShaderParameter(o,gl.COMPILE_STATUS)?o:null;}
+  const vs=sh(gl.VERTEX_SHADER,VERT), fs=sh(gl.FRAGMENT_SHADER,FRAG);
+  if(!vs||!fs) return;
+  const prog=gl.createProgram(); gl.attachShader(prog,vs); gl.attachShader(prog,fs); gl.linkProgram(prog);
+  if(!gl.getProgramParameter(prog,gl.LINK_STATUS)) return;
+  gl.useProgram(prog);
+  const buf=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const pLoc=gl.getAttribLocation(prog,'p'); gl.enableVertexAttribArray(pLoc); gl.vertexAttribPointer(pLoc,2,gl.FLOAT,false,0,0);
+  const uRes=gl.getUniformLocation(prog,'uRes'), uTime=gl.getUniformLocation(prog,'uTime'), uRip=gl.getUniformLocation(prog,'uRip');
+
+  const rip=new Float32Array(36); for(let i=0;i<12;i++) rip[i*3+2]=-100;
+  let head=0; const t0=performance.now(); const nowS=()=>(performance.now()-t0)/1000;
+  const addRipple=(x,y)=>{rip[head*3]=x;rip[head*3+1]=y;rip[head*3+2]=nowS();head=(head+1)%12;};
+  function resize(){const dpr=Math.min(devicePixelRatio||1,2);
+    canvas.width=Math.floor(canvas.clientWidth*dpr); canvas.height=Math.floor(canvas.clientHeight*dpr);
+    gl.viewport(0,0,canvas.width,canvas.height);}
+  window.addEventListener('resize',resize); resize();
+  let last=0;
+  const toUV=(cx,cy)=>{const r=canvas.getBoundingClientRect();return [(cx-r.left)/r.width,1-(cy-r.top)/r.height];};
+  host.addEventListener('pointermove',(e)=>{const t=performance.now();if(t-last<38)return;last=t;const[x,y]=toUV(e.clientX,e.clientY);addRipple(x,y);},{passive:true});
+  host.addEventListener('pointerdown',(e)=>{const[x,y]=toUV(e.clientX,e.clientY);addRipple(x,y);addRipple(x,y);},{passive:true});
+  addRipple(0.5,0.5);
+
+  let running=false, rafId=null;
+  function frame(){
+    if(!running) return;
+    gl.uniform2f(uRes,canvas.width,canvas.height);
+    gl.uniform1f(uTime,nowS());
+    gl.uniform3fv(uRip,rip);
+    gl.drawArrays(gl.TRIANGLES,0,3);
+    rafId=requestAnimationFrame(frame);
+  }
+  function setRun(on){
+    running=!!on;
+    if(on){ if(rafId===null) rafId=requestAnimationFrame(frame); }
+    else if(rafId!==null){ cancelAnimationFrame(rafId); rafId=null; }
+  }
+  new IntersectionObserver((es)=>{es.forEach(e=>setRun(e.isIntersecting));},{threshold:0.05}).observe(host);
+}
+initNotifyWater();
 </script>
 </body>
 </html>
