@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
   :root{
     --pearl:#FFFCF6;
@@ -197,14 +196,6 @@
     box-shadow:0 10px 30px rgba(0,0,0,0.25);
   }
   @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
-  .chain-3d{
-    position:absolute; top:-34px; right:-34px;
-    width:150px; height:150px;
-    z-index:2; pointer-events:none;
-  }
-  .chain-3d canvas{width:100% !important; height:100% !important;}
-  @media (max-width:900px){.chain-3d{width:110px; height:110px; top:-20px; right:-14px;}}
-  @media (max-width:480px){.chain-3d{display:none;}}
   @media (max-width:900px){
     .hero-grid{grid-template-columns:1fr;}
     .hero-visual{margin-top:2.4rem; max-width:440px; margin-left:auto; margin-right:auto;}
@@ -215,7 +206,48 @@
     .hero-visual{gap:10px;}
   }
 
-  /* ===== Marquee ===== */
+  /* ===== Scroll-driven chain — runs down the right side of the entire page ===== */
+  .scroll-chain{
+    position:fixed;
+    right:22px; top:0;
+    width:32px;
+    height:100vh;
+    z-index:50;
+    pointer-events:none;
+    display:flex; flex-direction:column; align-items:center;
+    overflow:visible;
+  }
+  .scroll-chain svg{
+    position:absolute; top:0; left:0;
+    width:32px; height:100%;
+    overflow:visible;
+  }
+  @media (max-width:900px){.scroll-chain{right:10px; width:22px;}}
+  @media (max-width:600px){.scroll-chain{display:none;}}
+
+  .chain-link-path{
+    fill:none;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .chain-link-bg{stroke:rgba(255,252,246,0.1); stroke-width:2;}
+  .chain-link-fill{
+    stroke:url(#chainGrad);
+    stroke-width:2;
+    stroke-dasharray:56;
+    stroke-dashoffset:56;
+    transition:stroke-dashoffset 0.08s linear;
+  }
+  .chain-spark{
+    display:none;
+    filter:drop-shadow(0 0 4px rgba(255,62,142,0.9));
+  }
+  .chain-spark circle{fill:var(--flash);}
+
+  @keyframes sparkpulse{
+    0%,100%{opacity:1; r:2.5;}
+    50%{opacity:0.6; r:3.5;}
+  }
   .marquee{
     background:var(--ink); color:var(--pearl);
     overflow:hidden; white-space:nowrap; padding:16px 0;
@@ -478,6 +510,23 @@
 </head>
 <body>
 
+<!-- Scroll-driven chain — fixed to right edge of page -->
+<div class="scroll-chain" id="scrollChain" aria-hidden="true">
+  <svg id="chainSvg" viewBox="0 0 32 800" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="chainGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#FF3E8E"/>
+        <stop offset="50%" stop-color="#CBFF4D"/>
+        <stop offset="100%" stop-color="#4DE1FF"/>
+      </linearGradient>
+    </defs>
+    <g id="chainLinks"></g>
+    <g class="chain-spark" id="chainSpark">
+      <circle cx="16" cy="0" r="3" style="animation:sparkpulse 0.6s infinite;"/>
+    </g>
+  </svg>
+</div>
+
 <header id="siteHeader">
   <a href="#top" class="logo"><span class="dot"></span>Bonded&amp;Co.</a>
   <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
@@ -508,7 +557,6 @@
       </div>
       <div class="hero-visual">
         <div class="hero-badge">FOREVER<br>WELDED<br>ON</div>
-        <div class="chain-3d" id="chain3d" aria-hidden="true"></div>
         <img class="hv-a" src="images/party-friends-fistbump.jpg" alt="Friends showing off their new permanent jewelry bracelets at a Bonded & Co pop-up">
         <img class="hv-b" src="images/jewelry-birthstone-bracelets.jpg" alt="Birthstone charm bracelets by Bonded & Co">
         <img class="hv-c" src="images/jewelry-hand-chain.jpg" alt="Delicate hand chain jewelry by Bonded & Co">
@@ -804,55 +852,6 @@
     eventList.appendChild(card);
   });
 
-  // 3D chain-link accent — two interlocked torus rings, slowly rotating
-  (function initChain3D() {
-    const el = document.getElementById('chain3d');
-    if (!el || !window.THREE || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const size = el.clientWidth || 150;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    camera.position.set(0, 0, 6);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(size, size);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    el.appendChild(renderer.domElement);
-
-    const light1 = new THREE.DirectionalLight(0xffffff, 1.1);
-    light1.position.set(3, 4, 5);
-    scene.add(light1);
-    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-
-    const matA = new THREE.MeshStandardMaterial({ color: 0x17151c, metalness: 0.6, roughness: 0.3 });
-    const matB = new THREE.MeshStandardMaterial({ color: 0xff3e8e, metalness: 0.5, roughness: 0.35 });
-
-    const ringGeo = new THREE.TorusGeometry(1.1, 0.22, 24, 64);
-    const ringA = new THREE.Mesh(ringGeo, matA);
-    const ringB = new THREE.Mesh(ringGeo, matB);
-    ringA.rotation.x = Math.PI / 2.4;
-    ringB.rotation.y = Math.PI / 2.6;
-    ringB.position.x = 0.95;
-    const group = new THREE.Group();
-    group.add(ringA, ringB);
-    scene.add(group);
-
-    let raf;
-    function animate() {
-      raf = requestAnimationFrame(animate);
-      group.rotation.y += 0.008;
-      group.rotation.x += 0.003;
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    const io2 = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting && raf) { cancelAnimationFrame(raf); raf = null; }
-        else if (entry.isIntersecting && !raf) { animate(); }
-      });
-    });
-    io2.observe(el);
-  })();
-
   // Reel play-on-click — audio on, and pause any other reel that's playing
   const allReelCards = document.querySelectorAll('.reel-card');
   allReelCards.forEach(card => {
@@ -920,6 +919,102 @@
       btn.textContent = 'Send Message';
     }
   });
+
+  // ===== Scroll-driven chain (right edge of page) =====
+  (function initScrollChain() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.innerWidth < 600) return;
+
+    const svg = document.getElementById('chainSvg');
+    const linksGroup = document.getElementById('chainLinks');
+    const spark = document.getElementById('chainSpark');
+    const sparkCircle = spark.querySelector('circle');
+    if (!svg || !linksGroup) return;
+
+    // How many chain-links to generate (enough to cover any page height)
+    const LINK_H = 28; // px per link in viewBox units
+    const LINK_COUNT = 80;
+    const LINK_W = 14;
+    const CX = 16;
+
+    // Build link paths: each link = a rounded rect path alternating horizontal/vertical
+    function makeLinkPath(i) {
+      const y = i * LINK_H + 2;
+      const isH = i % 2 === 0; // alternate orientation
+      const rx = isH ? LINK_W/2 : 4;
+      const ry = isH ? 4 : LINK_W/2;
+      const w = isH ? LINK_W : 8;
+      const h = isH ? 8 : LINK_W;
+      const x = CX - w/2;
+      return `M${x+rx},${y} h${w-2*rx} a${rx},${ry} 0 0 1 ${rx},${ry} v${h-2*ry} a${rx},${ry} 0 0 1 ${-rx},${ry} h${-(w-2*rx)} a${rx},${ry} 0 0 1 ${-rx},${-ry} v${-(h-2*ry)} a${rx},${ry} 0 0 1 ${rx},${-ry} z`;
+    }
+
+    // Perimeter of each link (approximate for stroke-dasharray)
+    const PERIM = 2*(LINK_W + 8) - 8 + 2*Math.PI*4; // ~56px
+
+    for (let i = 0; i < LINK_COUNT; i++) {
+      const bg = document.createElementNS('http://www.w3.org/2000/svg','path');
+      bg.setAttribute('d', makeLinkPath(i));
+      bg.setAttribute('class','chain-link-path chain-link-bg');
+      linksGroup.appendChild(bg);
+
+      const fill = document.createElementNS('http://www.w3.org/2000/svg','path');
+      fill.setAttribute('d', makeLinkPath(i));
+      fill.setAttribute('class','chain-link-path chain-link-fill');
+      fill.setAttribute('stroke-dasharray', PERIM);
+      fill.setAttribute('stroke-dashoffset', PERIM);
+      linksGroup.appendChild(fill);
+    }
+
+    // Sync viewBox height to actual page height
+    function resizeChain() {
+      const totalH = Math.max(document.body.scrollHeight, window.innerHeight);
+      svg.setAttribute('viewBox', `0 0 32 ${totalH}`);
+      svg.setAttribute('height', totalH);
+    }
+    resizeChain();
+    window.addEventListener('resize', resizeChain, {passive:true});
+
+    // Update on scroll
+    const fills = linksGroup.querySelectorAll('.chain-link-fill');
+    let ticking = false;
+
+    function updateChain() {
+      ticking = false;
+      const scrolled = window.scrollY;
+      const maxScroll = Math.max(1, document.body.scrollHeight - window.innerHeight);
+      const progress = Math.min(1, scrolled / maxScroll);
+      const totalH = document.body.scrollHeight;
+      const filledPx = progress * totalH;
+
+      fills.forEach((el, i) => {
+        const linkTop = i * LINK_H;
+        if (filledPx >= linkTop + LINK_H) {
+          el.setAttribute('stroke-dashoffset', 0);
+        } else if (filledPx > linkTop) {
+          const frac = (filledPx - linkTop) / LINK_H;
+          el.setAttribute('stroke-dashoffset', PERIM * (1 - frac));
+        } else {
+          el.setAttribute('stroke-dashoffset', PERIM);
+        }
+      });
+
+      // Move spark to front edge of the fill
+      const sparkY = Math.min(filledPx, totalH - 4);
+      sparkCircle.setAttribute('cy', sparkY);
+      if (progress > 0.005 && progress < 0.995) {
+        spark.style.display = 'block';
+      } else {
+        spark.style.display = 'none';
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(updateChain); ticking = true; }
+    }, {passive:true});
+
+    updateChain();
+  })();
 
   // Reveal + bond-divider on scroll
   const io = new IntersectionObserver((entries) => {
