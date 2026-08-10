@@ -188,7 +188,7 @@
   .textlink:hover{letter-spacing:.22em}
 
   /* ---------- NOTIFY ---------- */
-  .notify{position:relative;padding:8rem 0;text-align:center;overflow:hidden;background:var(--cream)}
+  .notify{position:relative;padding:8rem 0;text-align:center;overflow:hidden;background:var(--ink)}
   .notify__sun{position:absolute;left:50%;bottom:-34vw;translate:-50% 0;width:70vw;height:70vw;border-radius:50%;
     background:radial-gradient(circle,rgba(225,154,85,.26),transparent 62%);z-index:0}
   .notify .shell{position:relative;z-index:1;max-width:min(640px,90vw)}
@@ -196,7 +196,7 @@
   .notify h2{font-family:var(--serif);font-weight:500;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.05;margin:1rem 0 1rem;color:var(--cream)}
   .notify p{opacity:.72;margin-bottom:2rem;color:var(--cream)}
   .nform{display:flex;gap:.6rem;max-width:440px;margin:0 auto}
-  .nform input{flex:1;background:transparent;border:1px solid rgba(243,238,226,.4);color:var(--cream);padding:1rem 1.1rem;font-family:var(--sans);font-size:.95rem}
+  .nform input{flex:1;background:rgba(255,252,246,0.07);border:1px solid rgba(243,238,226,0.35);color:var(--cream);padding:1rem 1.1rem;font-family:var(--sans);font-size:.95rem}
   .nform input::placeholder{color:rgba(243,238,226,.45)}
   .nform button{background:var(--ink);color:var(--cream);border:0;cursor:pointer;font-size:.72rem;
     letter-spacing:.16em;text-transform:uppercase;padding:0 1.5rem;transition:.4s}
@@ -551,7 +551,7 @@
   .story-val__desc{font-size:.8rem;opacity:.52;line-height:1.55}
 
   /* --- Story footer --- */
-  .story-footer{position:relative;overflow:hidden}
+  .story-footer{position:relative;overflow:hidden;background:var(--ink)}
   .story-footer__inner{
     position:relative;z-index:1;
     display:flex;justify-content:space-between;align-items:center;
@@ -567,6 +567,28 @@
     opacity:.65;color:var(--cream);
   }
 
+
+  /* --- Brand intro --- */
+  .brand-intro{
+    background:var(--cream);
+    padding:7rem 6vw;
+    border-bottom:1px solid var(--line);
+  }
+  .brand-intro__inner{
+    max-width:720px;margin:0 auto;text-align:center;
+  }
+  .brand-intro__inner p{
+    font-family:var(--serif);
+    font-size:clamp(1.15rem,2vw,1.5rem);
+    line-height:1.72;color:var(--ink);opacity:.88;
+    margin-bottom:1.4rem;
+  }
+  .brand-intro__sign{
+    font-family:var(--serif);font-style:italic;
+    font-size:clamp(1.4rem,2.5vw,1.9rem) !important;
+    color:var(--pom);opacity:1 !important;
+    margin-top:2rem !important;
+  }
   /* --- Cloth texture on all footers --- */
   .cloth-footer{
     background:
@@ -649,6 +671,18 @@
 
 
 
+  <!-- BRAND INTRO -->
+  <div class="brand-intro">
+    <div class="brand-intro__inner">
+      <p>NERA started with a feeling we both knew too well: swimwear that never quite fit right, never felt fully comfortable, and somehow made the whole experience feel more performative than enjoyable.</p>
+      <p>After growing up in team environments, we realized how much we missed the sense of community, confidence, and belonging that came with them, and how rare that feeling can feel as you get older.</p>
+      <p>So we decided to build something different.</p>
+      <p>NERA is about creating elevated swimwear that fits properly, feels secure, and looks good without sacrificing comfort. But beyond the bikinis themselves, we're building a brand rooted in connection, confidence, and community.</p>
+      <p>We want NERA to feel fashionable but approachable. Wholesome but still hot. The kind of space where girls support girls, everyone feels welcome, and you can feel genuinely good in what you're wearing.</p>
+      <p class="brand-intro__sign">xoxo, Liz &amp; Miranda</p>
+    </div>
+  </div>
+
   <!-- FOUNDER STORIES -->
   <div class="founder-cards">
 
@@ -708,10 +742,10 @@
   </div>
 
   <!-- STORY FOOTER -->
-  <footer class="story-footer cloth-footer" id="storyFooter">
+  <footer class="story-footer" id="storyFooter">
     <canvas id="storyFooterCanvas" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;pointer-events:none"></canvas>
-    <div class="story-footer__veil" aria-hidden="true" style="position:absolute;inset:0;z-index:1;pointer-events:none;background:rgba(18,20,29,0.72)"></div>
-    <div class="story-footer__inner" style="position:relative;z-index:2">
+    <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;pointer-events:none;background:rgba(18,20,29,0.68)"></div>
+    <div class="story-footer__inner">
       <span class="story-footer__logo">NERA</span>
       <span class="story-footer__copy">© NERA Swimwear — Toronto · Swimwear is meant to fit bodies.</span>
       <a href="mailto:team@neraswim.com" class="story-footer__link">team@neraswim.com</a>
@@ -826,7 +860,7 @@
   <!-- NOTIFY -->
   <section class="notify" id="notify">
     <canvas id="notifyCanvas" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0"></canvas>
-    <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;background:rgba(18,20,29,0.62)"></div>
+    <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(18,20,29,0.82) 0%,rgba(18,20,29,0.45) 50%,rgba(18,20,29,0.68) 100%)"></div>
     <div class="notify__sun" aria-hidden="true"></div>
     <div class="shell">
       <div style="position:relative;z-index:2">
