@@ -93,7 +93,7 @@
   /* =========================================================
      CENTERPIECE — scroll to adjust (smooth, morphing figure)
   ==========================================================*/
-  .fit{background:var(--ink);color:var(--cream)}
+  .fit{background:var(--ink);color:var(--cream);border-bottom:4px solid var(--olive)}
   .fit__scroll{height:320vh;position:relative}
   .fit__stage{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1fr 1fr;
     align-items:center;gap:2rem;width:var(--shell);margin-inline:auto}
@@ -114,7 +114,7 @@
     font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.4}
 
   /* ---------- COLOUR STORY (3-panel, as liked) ---------- */
-  .colour{display:grid;grid-template-columns:1fr 1.15fr 1fr;min-height:60vh}
+  .colour{display:grid;grid-template-columns:1fr 1.15fr 1fr;min-height:60vh;border-bottom:4px solid var(--pom)}
   .panel{position:relative;display:flex;flex-direction:column;justify-content:flex-end;
     padding:2.4rem;color:var(--cream);overflow:hidden}
   .panel span{font-family:var(--serif);font-size:1.7rem}
@@ -129,7 +129,7 @@
   .colour__copy p{max-width:34ch;opacity:.72}
 
   /* ---------- VALUES ---------- */
-  .values{background:var(--ink);color:var(--cream);padding:6rem 0}
+  .values{background:var(--ink);color:var(--cream);padding:6rem 0;border-top:1px solid rgba(243,238,226,.12)}
   .values__kicker{font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;
     color:var(--amber);text-align:center;margin-bottom:3.2rem}
   .values__grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;
@@ -241,7 +241,7 @@
   /* ===== SMALL TABLET ===== */
   @media(max-width:820px){
     .manifesto,.story,.notify{padding-block:6rem}
-    .colour{grid-template-columns:1fr}.panel{min-height:38vh}
+    .colour{grid-template-columns:1fr}.panel{min-height:32vh}
     .story .shell{padding:0 5vw}
   }
   /* ===== MOBILE ===== */
@@ -260,10 +260,33 @@
     .story h2{font-size:clamp(1.8rem,8vw,2.6rem)}
     .notify{padding:5rem 0}
     .notify h2{font-size:clamp(2rem,8vw,2.8rem)}
-    .values{padding:4rem 0}
-    .values__grid{grid-template-columns:repeat(2,1fr)}
-    .val-item{padding:2rem 1.2rem 1.8rem}
-    .val-item__title{font-size:1.1rem}
+    .values{padding:3.5rem 0}
+    .values__grid{grid-template-columns:1fr;gap:0;background:none}
+    .val-item{
+      padding:0;
+      border-bottom:1px solid rgba(243,238,226,.12);
+      overflow:hidden;
+    }
+    .val-item__trigger{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:1.2rem 5.5vw;cursor:pointer;width:100%;
+    }
+    .val-item__left{display:flex;align-items:center;gap:1rem}
+    .val-item__num{font-size:1.6rem;margin-bottom:0;opacity:.55}
+    .val-item__title{font-size:1.05rem;margin-bottom:0}
+    .val-item__chevron{
+      font-size:.7rem;color:rgba(243,238,226,.5);
+      transition:transform .35s;flex-shrink:0;
+    }
+    .val-item.open .val-item__chevron{transform:rotate(45deg)}
+    .val-item__desc{
+      max-height:0;opacity:0;padding:0 5.5vw;
+      transition:max-height .4s ease,opacity .4s ease,padding .4s ease;
+    }
+    .val-item.open .val-item__desc{max-height:120px;opacity:1;padding:.2rem 5.5vw 1.2rem}
+    .val-item::after{display:none}
+    .val-item:hover{background:transparent}
+    .val-item:hover .val-item__num{opacity:.55}
     .colour{padding:0}
     .panel{min-height:55vw}
     .fit__meter{max-width:100%}
@@ -300,7 +323,6 @@
     color:var(--olive);cursor:pointer;border:none;background:none;
     padding:0;font-family:var(--sans);transition:gap .3s}
   .story-back:hover{gap:1rem}
-  .story-back::before{content:"←"}
 
   /* FOUNDERS HERO */
   .founders-hero{
@@ -715,13 +737,15 @@
   .sg-how-trigger.open span{transform:rotate(45deg)}
   .sg-how-body{
     max-height:0;overflow:hidden;transition:max-height .5s var(--ease);
-    display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;
   }
   .sg-how-body.open{max-height:400px;padding-bottom:1.6rem}
   .sg-measure{padding:1.4rem;background:var(--sand,#EDE3D0)}
   .sg-measure h4{font-family:var(--serif);font-size:1.1rem;margin-bottom:.5rem}
   .sg-measure p{font-size:.84rem;opacity:.75;line-height:1.6}
-  @media(max-width:700px){.sg-how-body{grid-template-columns:1fr}}
+  @media(max-width:900px){.sg-how-body{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:700px){.sg-how-body{grid-template-columns:1fr;gap:.8rem}
+    .sg-how-body.open{max-height:600px}}
 
   /* bra finder */
   .sg-finder{
@@ -989,6 +1013,7 @@
 
     <!-- HOW TO MEASURE -->
     <div class="sg-how">
+      <p style="font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);opacity:.5;padding:.8rem 0 0;margin-bottom:-.2rem">Keep the tape level and snug</p>
       <button class="sg-how-trigger" id="howTrigger">
         How to measure
         <span>+</span>
@@ -996,15 +1021,19 @@
       <div class="sg-how-body" id="howBody">
         <div class="sg-measure">
           <h4>Bust</h4>
-          <p>Measure around the fullest part of your chest, keeping the tape parallel to the floor and arms relaxed at your sides.</p>
+          <p>Wrap the tape around the fullest part of your bust, usually across the nipples. Keep it level and relaxed.</p>
+        </div>
+        <div class="sg-measure">
+          <h4>Underbust</h4>
+          <p>Measure directly beneath your bust where a bra band sits. Keep the tape level and snug.</p>
         </div>
         <div class="sg-measure">
           <h4>Waist</h4>
-          <p>Measure around the narrowest part of your natural waist, usually just above your belly button. Keep the tape snug but not tight.</p>
+          <p>Measure the narrowest point between your ribs and hips. Bend to one side—the crease is your natural waist.</p>
         </div>
         <div class="sg-measure">
-          <h4>Hips</h4>
-          <p>Measure around the fullest part of your hips and seat, usually 20–23 cm below your natural waist.</p>
+          <h4>Hip</h4>
+          <p>Stand with your feet together and measure around the widest part of your hips and bottom.</p>
         </div>
       </div>
     </div>
@@ -1148,11 +1177,29 @@
     <div class="shell">
       <p class="values__kicker">What we stand for</p>
       <div class="values__grid">
-        <div class="val-item reveal"><span class="val-item__num">01</span><span class="val-item__title">Community</span><p class="val-item__desc">Creating connection through shared experiences.</p></div>
+        <div class="val-item reveal">
+          <div class="val-item__trigger">
+            <div class="val-item__left">
+              <span class="val-item__num">01</span>
+              <span class="val-item__title">Community</span>
+            </div>
+            <span class="val-item__chevron" aria-hidden="true">+</span>
+          </div>
+          <p class="val-item__desc">Creating connection through shared experiences.</p>
+        </div>
         <div class="val-item reveal d1"><span class="val-item__num">02</span><span class="val-item__title">Precision</span><p class="val-item__desc">Thoughtful, intentional design that prioritises fit &amp; function.</p></div>
         <div class="val-item reveal d2"><span class="val-item__num">03</span><span class="val-item__title">Originality</span><p class="val-item__desc">A distinct point of view in product and brand.</p></div>
         <div class="val-item reveal d3"><span class="val-item__num">04</span><span class="val-item__title">Integrity</span><p class="val-item__desc">Doing things right, even when it feels harder.</p></div>
-        <div class="val-item reveal"><span class="val-item__num">05</span><span class="val-item__title">Vitality</span><p class="val-item__desc">Energy, movement, and feeling alive in your body.</p></div>
+        <div class="val-item reveal">
+          <div class="val-item__trigger">
+            <div class="val-item__left">
+              <span class="val-item__num">05</span>
+              <span class="val-item__title">Vitality</span>
+            </div>
+            <span class="val-item__chevron" aria-hidden="true">+</span>
+          </div>
+          <p class="val-item__desc">Energy, movement, and feeling alive in your body.</p>
+        </div>
         <div class="val-item reveal d1"><span class="val-item__num">06</span><span class="val-item__title">Ambition</span><p class="val-item__desc">Building something category-defining.</p></div>
       </div>
     </div>
@@ -1535,6 +1582,26 @@ function initFooterWater(canvasId, hostId) {
 initFooterWater('homeFooterCanvas','homeFooter');
 initFooterWater('storyFooterCanvas','storyFooter');
 initFooterWater('sgFooterCanvas','sgFooter');
+
+
+/* Mobile values accordion */
+(function(){
+  if (window.innerWidth > 560) return;
+  document.querySelectorAll('.val-item').forEach(item => {
+    const trigger = item.querySelector('.val-item__trigger');
+    if (!trigger) return;
+    trigger.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.val-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 560) {
+      document.querySelectorAll('.val-item').forEach(i => i.classList.remove('open'));
+    }
+  }, {passive:true});
+})();
 
 </script>
 </body>
