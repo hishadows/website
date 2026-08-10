@@ -261,32 +261,12 @@
     .notify{padding:5rem 0}
     .notify h2{font-size:clamp(2rem,8vw,2.8rem)}
     .values{padding:3.5rem 0}
-    .values__grid{grid-template-columns:1fr;gap:0;background:none}
-    .val-item{
-      padding:0;
-      border-bottom:1px solid rgba(243,238,226,.12);
-      overflow:hidden;
-    }
-    .val-item__trigger{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:1.2rem 5.5vw;cursor:pointer;width:100%;
-    }
-    .val-item__left{display:flex;align-items:center;gap:1rem}
-    .val-item__num{font-size:1.6rem;margin-bottom:0;opacity:.55}
-    .val-item__title{font-size:1.05rem;margin-bottom:0}
-    .val-item__chevron{
-      font-size:.7rem;color:rgba(243,238,226,.5);
-      transition:transform .35s;flex-shrink:0;
-    }
-    .val-item.open .val-item__chevron{transform:rotate(45deg)}
-    .val-item__desc{
-      max-height:0;opacity:0;padding:0 5.5vw;
-      transition:max-height .4s ease,opacity .4s ease,padding .4s ease;
-    }
-    .val-item.open .val-item__desc{max-height:120px;opacity:1;padding:.2rem 5.5vw 1.2rem}
+    .values__grid{grid-template-columns:repeat(2,1fr);gap:2px}
+    .val-item{padding:1.8rem 1.2rem 1.6rem}
+    .val-item__num{font-size:2rem;opacity:.5}
+    .val-item__title{font-size:1.05rem}
+    .val-item__desc{max-height:none !important;opacity:.58 !important;overflow:visible !important;font-size:.76rem;transition:none}
     .val-item::after{display:none}
-    .val-item:hover{background:transparent}
-    .val-item:hover .val-item__num{opacity:.55}
     .colour{padding:0}
     .panel{min-height:55vw}
     .fit__meter{max-width:100%}
@@ -301,7 +281,6 @@
   }
   /* ===== SMALL MOBILE ===== */
   @media(max-width:420px){
-    .values__grid{grid-template-columns:1fr}
     .hero h1{font-size:clamp(2rem,11vw,2.8rem)}
     .shell{padding-inline:5vw}
     .nform input{font-size:.9rem}
@@ -739,13 +718,13 @@
     max-height:0;overflow:hidden;transition:max-height .5s var(--ease);
     display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;
   }
-  .sg-how-body.open{max-height:400px;padding-bottom:1.6rem}
+  .sg-how-body.open{max-height:800px;padding-bottom:1.6rem}
   .sg-measure{padding:1.4rem;background:var(--sand,#EDE3D0)}
   .sg-measure h4{font-family:var(--serif);font-size:1.1rem;margin-bottom:.5rem}
   .sg-measure p{font-size:.84rem;opacity:.75;line-height:1.6}
   @media(max-width:900px){.sg-how-body{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:700px){.sg-how-body{grid-template-columns:1fr;gap:.8rem}
-    .sg-how-body.open{max-height:600px}}
+    .sg-how-body.open{max-height:1000px}}
 
   /* bra finder */
   .sg-finder{
@@ -1177,29 +1156,11 @@
     <div class="shell">
       <p class="values__kicker">What we stand for</p>
       <div class="values__grid">
-        <div class="val-item reveal">
-          <div class="val-item__trigger">
-            <div class="val-item__left">
-              <span class="val-item__num">01</span>
-              <span class="val-item__title">Community</span>
-            </div>
-            <span class="val-item__chevron" aria-hidden="true">+</span>
-          </div>
-          <p class="val-item__desc">Creating connection through shared experiences.</p>
-        </div>
+        <div class="val-item reveal"><span class="val-item__num">01</span><span class="val-item__title">Community</span><p class="val-item__desc">Creating connection through shared experiences.</p></div>
         <div class="val-item reveal d1"><span class="val-item__num">02</span><span class="val-item__title">Precision</span><p class="val-item__desc">Thoughtful, intentional design that prioritises fit &amp; function.</p></div>
         <div class="val-item reveal d2"><span class="val-item__num">03</span><span class="val-item__title">Originality</span><p class="val-item__desc">A distinct point of view in product and brand.</p></div>
         <div class="val-item reveal d3"><span class="val-item__num">04</span><span class="val-item__title">Integrity</span><p class="val-item__desc">Doing things right, even when it feels harder.</p></div>
-        <div class="val-item reveal">
-          <div class="val-item__trigger">
-            <div class="val-item__left">
-              <span class="val-item__num">05</span>
-              <span class="val-item__title">Vitality</span>
-            </div>
-            <span class="val-item__chevron" aria-hidden="true">+</span>
-          </div>
-          <p class="val-item__desc">Energy, movement, and feeling alive in your body.</p>
-        </div>
+        <div class="val-item reveal"><span class="val-item__num">05</span><span class="val-item__title">Vitality</span><p class="val-item__desc">Energy, movement, and feeling alive in your body.</p></div>
         <div class="val-item reveal d1"><span class="val-item__num">06</span><span class="val-item__title">Ambition</span><p class="val-item__desc">Building something category-defining.</p></div>
       </div>
     </div>
@@ -1584,24 +1545,18 @@ initFooterWater('storyFooterCanvas','storyFooter');
 initFooterWater('sgFooterCanvas','sgFooter');
 
 
-/* Mobile values accordion */
-(function(){
-  if (window.innerWidth > 560) return;
-  document.querySelectorAll('.val-item').forEach(item => {
-    const trigger = item.querySelector('.val-item__trigger');
-    if (!trigger) return;
-    trigger.addEventListener('click', () => {
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.val-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-    });
-  });
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 560) {
-      document.querySelectorAll('.val-item').forEach(i => i.classList.remove('open'));
-    }
-  }, {passive:true});
-})();
+
+
+/* How to measure accordion */
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('#howTrigger');
+  if (!btn) return;
+  const body = document.getElementById('howBody');
+  if (!body) return;
+  const open = body.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.querySelector('span').textContent = open ? '−' : '+';
+});
 
 </script>
 </body>
